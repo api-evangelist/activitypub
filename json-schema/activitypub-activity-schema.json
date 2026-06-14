@@ -1,0 +1,306 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/activitypub/json-schema/activitypub-activity-schema.json",
+  "title": "ActivityPub Activity",
+  "description": "JSON Schema for ActivityPub Activity objects as defined by https://www.w3.org/TR/activitypub/#activities and https://www.w3.org/TR/activitystreams-vocabulary/#activity-types",
+  "type": "object",
+  "required": ["@context", "type", "actor"],
+  "properties": {
+    "@context": {
+      "description": "ActivityStreams 2.0 JSON-LD context",
+      "oneOf": [
+        {
+          "type": "string",
+          "const": "https://www.w3.org/ns/activitystreams"
+        },
+        {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "object" }
+            ]
+          }
+        }
+      ]
+    },
+    "id": {
+      "type": "string",
+      "format": "uri",
+      "description": "Globally unique IRI of the activity (assigned by the server on publish)"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "Accept",
+        "Add",
+        "Announce",
+        "Arrive",
+        "Block",
+        "Create",
+        "Delete",
+        "Dislike",
+        "Flag",
+        "Follow",
+        "Ignore",
+        "Invite",
+        "Join",
+        "Leave",
+        "Like",
+        "Listen",
+        "Move",
+        "Offer",
+        "Question",
+        "Read",
+        "Reject",
+        "Remove",
+        "TentativeAccept",
+        "TentativeReject",
+        "Travel",
+        "Undo",
+        "Update",
+        "View"
+      ],
+      "description": "The activity type"
+    },
+    "actor": {
+      "description": "The actor performing the activity — IRI or embedded Actor object",
+      "oneOf": [
+        { "type": "string", "format": "uri" },
+        { "$ref": "#/$defs/ActorRef" }
+      ]
+    },
+    "object": {
+      "description": "The object on which the activity is performed",
+      "oneOf": [
+        { "type": "string", "format": "uri" },
+        { "$ref": "#/$defs/ObjectOrActivity" }
+      ]
+    },
+    "target": {
+      "description": "The indirect target or destination of the activity",
+      "oneOf": [
+        { "type": "string", "format": "uri" },
+        { "$ref": "#/$defs/ObjectOrActivity" }
+      ]
+    },
+    "result": {
+      "description": "Describes the result of the activity",
+      "oneOf": [
+        { "type": "string", "format": "uri" },
+        { "$ref": "#/$defs/ObjectOrActivity" }
+      ]
+    },
+    "origin": {
+      "description": "The source from which the object originated (e.g., for Move)",
+      "oneOf": [
+        { "type": "string", "format": "uri" },
+        { "$ref": "#/$defs/ObjectOrActivity" }
+      ]
+    },
+    "instrument": {
+      "description": "Tool or instrument used to perform the activity",
+      "oneOf": [
+        { "type": "string", "format": "uri" },
+        { "$ref": "#/$defs/ObjectOrActivity" }
+      ]
+    },
+    "to": {
+      "description": "Primary audience — use https://www.w3.org/ns/activitystreams#Public for public posts",
+      "oneOf": [
+        { "type": "string", "format": "uri" },
+        {
+          "type": "array",
+          "items": { "type": "string", "format": "uri" }
+        }
+      ]
+    },
+    "cc": {
+      "description": "Secondary (carbon copy) audience",
+      "oneOf": [
+        { "type": "string", "format": "uri" },
+        {
+          "type": "array",
+          "items": { "type": "string", "format": "uri" }
+        }
+      ]
+    },
+    "bto": {
+      "description": "Private primary audience — MUST be stripped before delivery",
+      "oneOf": [
+        { "type": "string", "format": "uri" },
+        {
+          "type": "array",
+          "items": { "type": "string", "format": "uri" }
+        }
+      ]
+    },
+    "bcc": {
+      "description": "Private secondary audience — MUST be stripped before delivery",
+      "oneOf": [
+        { "type": "string", "format": "uri" },
+        {
+          "type": "array",
+          "items": { "type": "string", "format": "uri" }
+        }
+      ]
+    },
+    "audience": {
+      "description": "Additional audience designation",
+      "oneOf": [
+        { "type": "string", "format": "uri" },
+        {
+          "type": "array",
+          "items": { "type": "string", "format": "uri" }
+        }
+      ]
+    },
+    "published": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the activity occurred or was published"
+    },
+    "summary": {
+      "type": "string",
+      "description": "Short description or content warning"
+    },
+    "oneOf": {
+      "type": "array",
+      "description": "Single-answer poll options (Question only)",
+      "items": { "$ref": "#/$defs/ObjectOrActivity" }
+    },
+    "anyOf": {
+      "type": "array",
+      "description": "Multiple-answer poll options (Question only)",
+      "items": { "$ref": "#/$defs/ObjectOrActivity" }
+    },
+    "closed": {
+      "description": "When or whether a Question is closed",
+      "oneOf": [
+        { "type": "string", "format": "date-time" },
+        { "type": "boolean" },
+        { "type": "string", "format": "uri" }
+      ]
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "ActorRef": {
+      "type": "object",
+      "description": "An embedded actor object reference",
+      "properties": {
+        "id": { "type": "string", "format": "uri" },
+        "type": {
+          "type": "string",
+          "enum": ["Person", "Application", "Group", "Organization", "Service"]
+        },
+        "name": { "type": "string" },
+        "preferredUsername": { "type": "string" },
+        "inbox": { "type": "string", "format": "uri" },
+        "outbox": { "type": "string", "format": "uri" }
+      }
+    },
+    "ObjectOrActivity": {
+      "type": "object",
+      "description": "An embedded ActivityStreams Object or Activity",
+      "properties": {
+        "id": { "type": "string", "format": "uri" },
+        "type": { "type": "string" },
+        "name": { "type": "string" },
+        "content": { "type": "string" },
+        "summary": { "type": "string" },
+        "url": {
+          "oneOf": [
+            { "type": "string", "format": "uri" },
+            { "type": "array", "items": { "type": "string", "format": "uri" } }
+          ]
+        },
+        "attributedTo": {
+          "oneOf": [
+            { "type": "string", "format": "uri" },
+            { "type": "array", "items": { "type": "string", "format": "uri" } }
+          ]
+        },
+        "published": { "type": "string", "format": "date-time" },
+        "to": {
+          "oneOf": [
+            { "type": "string", "format": "uri" },
+            { "type": "array", "items": { "type": "string", "format": "uri" } }
+          ]
+        },
+        "cc": {
+          "oneOf": [
+            { "type": "string", "format": "uri" },
+            { "type": "array", "items": { "type": "string", "format": "uri" } }
+          ]
+        },
+        "inReplyTo": {
+          "oneOf": [
+            { "type": "string", "format": "uri" },
+            { "type": "array", "items": { "type": "string", "format": "uri" } }
+          ]
+        },
+        "tag": {
+          "type": "array",
+          "items": { "type": "object" }
+        },
+        "attachment": {
+          "type": "array",
+          "items": { "type": "object" }
+        },
+        "sensitive": { "type": "boolean" },
+        "mediaType": { "type": "string" },
+        "formerType": { "type": "string" },
+        "deleted": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": true
+    }
+  },
+  "examples": [
+    {
+      "@context": "https://www.w3.org/ns/activitystreams",
+      "type": "Create",
+      "actor": "https://social.example/users/alyssa",
+      "to": ["https://www.w3.org/ns/activitystreams#Public"],
+      "cc": ["https://social.example/users/alyssa/followers"],
+      "object": {
+        "@context": "https://www.w3.org/ns/activitystreams",
+        "type": "Note",
+        "content": "Say, did you finish reading that book I lent you?",
+        "to": ["https://www.w3.org/ns/activitystreams#Public"],
+        "cc": ["https://social.example/users/alyssa/followers"],
+        "attributedTo": "https://social.example/users/alyssa",
+        "published": "2015-01-21T20:04:00Z"
+      }
+    },
+    {
+      "@context": "https://www.w3.org/ns/activitystreams",
+      "type": "Follow",
+      "actor": "https://social.example/users/alyssa",
+      "object": "https://remote.example/users/ben"
+    },
+    {
+      "@context": "https://www.w3.org/ns/activitystreams",
+      "type": "Like",
+      "actor": "https://social.example/users/alyssa",
+      "object": "https://remote.example/notes/12345"
+    },
+    {
+      "@context": "https://www.w3.org/ns/activitystreams",
+      "type": "Undo",
+      "actor": "https://social.example/users/alyssa",
+      "object": {
+        "type": "Follow",
+        "actor": "https://social.example/users/alyssa",
+        "object": "https://remote.example/users/ben"
+      }
+    },
+    {
+      "@context": "https://www.w3.org/ns/activitystreams",
+      "type": "Announce",
+      "actor": "https://social.example/users/alyssa",
+      "to": ["https://www.w3.org/ns/activitystreams#Public"],
+      "object": "https://remote.example/notes/67890"
+    }
+  ]
+}

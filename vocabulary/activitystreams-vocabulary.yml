@@ -1,0 +1,559 @@
+name: ActivityStreams 2.0 Vocabulary
+version: '2.0'
+url: https://www.w3.org/TR/activitystreams-vocabulary/
+context: https://www.w3.org/ns/activitystreams
+namespace: https://www.w3.org/ns/activitystreams#
+description: >-
+  The ActivityStreams 2.0 Vocabulary defines the types and properties used to describe
+  activities, actors, and objects in the ActivityPub federation protocol. All types
+  and properties are expressed as JSON-LD using the https://www.w3.org/ns/activitystreams
+  context.
+
+core_types:
+  - name: Object
+    uri: https://www.w3.org/ns/activitystreams#Object
+    description: Base type for most ActivityStreams entities
+  - name: Link
+    uri: https://www.w3.org/ns/activitystreams#Link
+    description: A qualified, indirect reference to a resource
+  - name: Activity
+    uri: https://www.w3.org/ns/activitystreams#Activity
+    description: Describes an action that has occurred, is occurring, or will occur
+    extends: Object
+  - name: IntransitiveActivity
+    uri: https://www.w3.org/ns/activitystreams#IntransitiveActivity
+    description: An Activity with no direct object
+    extends: Activity
+  - name: Collection
+    uri: https://www.w3.org/ns/activitystreams#Collection
+    description: An unordered set of Objects or Links
+    extends: Object
+  - name: OrderedCollection
+    uri: https://www.w3.org/ns/activitystreams#OrderedCollection
+    description: A strictly ordered collection of Objects or Links
+    extends: Collection
+  - name: CollectionPage
+    uri: https://www.w3.org/ns/activitystreams#CollectionPage
+    description: A distinct subset of items from a Collection
+    extends: Collection
+  - name: OrderedCollectionPage
+    uri: https://www.w3.org/ns/activitystreams#OrderedCollectionPage
+    description: An ordered subset of items with a start position
+    extends: OrderedCollection
+
+actor_types:
+  - name: Application
+    uri: https://www.w3.org/ns/activitystreams#Application
+    description: A software application actor
+    extends: Object
+  - name: Group
+    uri: https://www.w3.org/ns/activitystreams#Group
+    description: A formal or informal collective of actors
+    extends: Object
+  - name: Organization
+    uri: https://www.w3.org/ns/activitystreams#Organization
+    description: An organization actor
+    extends: Object
+  - name: Person
+    uri: https://www.w3.org/ns/activitystreams#Person
+    description: A human individual actor
+    extends: Object
+  - name: Service
+    uri: https://www.w3.org/ns/activitystreams#Service
+    description: A service (software-as-a-service) actor
+    extends: Object
+
+activity_types:
+  - name: Accept
+    uri: https://www.w3.org/ns/activitystreams#Accept
+    description: Indicates acceptance of an object (e.g., accepting a Follow request)
+    extends: Activity
+  - name: Add
+    uri: https://www.w3.org/ns/activitystreams#Add
+    description: Indicates an actor added an object to a target collection
+    extends: Activity
+  - name: Announce
+    uri: https://www.w3.org/ns/activitystreams#Announce
+    description: Indicates an actor is calling attention to an object (boost/reblog)
+    extends: Activity
+  - name: Arrive
+    uri: https://www.w3.org/ns/activitystreams#Arrive
+    description: An IntransitiveActivity indicating an actor arrived at a location
+    extends: IntransitiveActivity
+  - name: Block
+    uri: https://www.w3.org/ns/activitystreams#Block
+    description: Indicates an actor is blocking another object
+    extends: Ignore
+  - name: Create
+    uri: https://www.w3.org/ns/activitystreams#Create
+    description: Indicates an actor has created an object
+    extends: Activity
+  - name: Delete
+    uri: https://www.w3.org/ns/activitystreams#Delete
+    description: Indicates an actor has deleted an object
+    extends: Activity
+  - name: Dislike
+    uri: https://www.w3.org/ns/activitystreams#Dislike
+    description: Indicates an actor dislikes an object
+    extends: Activity
+  - name: Flag
+    uri: https://www.w3.org/ns/activitystreams#Flag
+    description: Indicates content is being flagged for review
+    extends: Activity
+  - name: Follow
+    uri: https://www.w3.org/ns/activitystreams#Follow
+    description: Indicates an actor is following another actor
+    extends: Activity
+  - name: Ignore
+    uri: https://www.w3.org/ns/activitystreams#Ignore
+    description: Indicates an actor is ignoring an object
+    extends: Activity
+  - name: Invite
+    uri: https://www.w3.org/ns/activitystreams#Invite
+    description: An Offer specialized to invite an actor to join a group or event
+    extends: Offer
+  - name: Join
+    uri: https://www.w3.org/ns/activitystreams#Join
+    description: Indicates an actor has joined an object
+    extends: Activity
+  - name: Leave
+    uri: https://www.w3.org/ns/activitystreams#Leave
+    description: Indicates an actor has left an object
+    extends: Activity
+  - name: Like
+    uri: https://www.w3.org/ns/activitystreams#Like
+    description: Indicates an actor likes an object
+    extends: Activity
+  - name: Listen
+    uri: https://www.w3.org/ns/activitystreams#Listen
+    description: Indicates an actor listened to an object (audio content)
+    extends: Activity
+  - name: Move
+    uri: https://www.w3.org/ns/activitystreams#Move
+    description: Indicates an actor moved an object from origin to target
+    extends: Activity
+  - name: Offer
+    uri: https://www.w3.org/ns/activitystreams#Offer
+    description: Indicates an actor is offering an object
+    extends: Activity
+  - name: Question
+    uri: https://www.w3.org/ns/activitystreams#Question
+    description: A question activity (poll); uses oneOf or anyOf for options
+    extends: IntransitiveActivity
+  - name: Read
+    uri: https://www.w3.org/ns/activitystreams#Read
+    description: Indicates an actor read an object
+    extends: Activity
+  - name: Reject
+    uri: https://www.w3.org/ns/activitystreams#Reject
+    description: Indicates rejection of an object (e.g., rejecting a Follow request)
+    extends: Activity
+  - name: Remove
+    uri: https://www.w3.org/ns/activitystreams#Remove
+    description: Indicates an actor removed an object from a target collection
+    extends: Activity
+  - name: TentativeAccept
+    uri: https://www.w3.org/ns/activitystreams#TentativeAccept
+    description: Tentative acceptance of an object
+    extends: Accept
+  - name: TentativeReject
+    uri: https://www.w3.org/ns/activitystreams#TentativeReject
+    description: Tentative rejection of an object
+    extends: Reject
+  - name: Travel
+    uri: https://www.w3.org/ns/activitystreams#Travel
+    description: An IntransitiveActivity indicating an actor is traveling
+    extends: IntransitiveActivity
+  - name: Undo
+    uri: https://www.w3.org/ns/activitystreams#Undo
+    description: Reverts or undoes a previous activity
+    extends: Activity
+  - name: Update
+    uri: https://www.w3.org/ns/activitystreams#Update
+    description: Indicates an actor updated an object
+    extends: Activity
+  - name: View
+    uri: https://www.w3.org/ns/activitystreams#View
+    description: Indicates an actor viewed an object
+    extends: Activity
+
+object_types:
+  - name: Article
+    uri: https://www.w3.org/ns/activitystreams#Article
+    description: An article of any kind (blog post, news article, etc.)
+    extends: Object
+  - name: Audio
+    uri: https://www.w3.org/ns/activitystreams#Audio
+    description: An audio document
+    extends: Document
+  - name: Document
+    uri: https://www.w3.org/ns/activitystreams#Document
+    description: A generic document
+    extends: Object
+  - name: Event
+    uri: https://www.w3.org/ns/activitystreams#Event
+    description: An event that occurs at a specified time and location
+    extends: Object
+  - name: Image
+    uri: https://www.w3.org/ns/activitystreams#Image
+    description: An image document
+    extends: Document
+  - name: Note
+    uri: https://www.w3.org/ns/activitystreams#Note
+    description: A short informal note (the primary content type for Mastodon posts)
+    extends: Object
+  - name: Page
+    uri: https://www.w3.org/ns/activitystreams#Page
+    description: A web page
+    extends: Document
+  - name: Place
+    uri: https://www.w3.org/ns/activitystreams#Place
+    description: A physical or logical location
+    extends: Object
+  - name: Profile
+    uri: https://www.w3.org/ns/activitystreams#Profile
+    description: A profile describing another object (usually a Person)
+    extends: Object
+  - name: Relationship
+    uri: https://www.w3.org/ns/activitystreams#Relationship
+    description: A relationship between two subjects
+    extends: Object
+  - name: Tombstone
+    uri: https://www.w3.org/ns/activitystreams#Tombstone
+    description: A marker for a previously existing object that has been deleted
+    extends: Object
+  - name: Video
+    uri: https://www.w3.org/ns/activitystreams#Video
+    description: A video document
+    extends: Document
+
+link_types:
+  - name: Mention
+    uri: https://www.w3.org/ns/activitystreams#Mention
+    description: A specialized Link representing an @mention of another actor
+    extends: Link
+
+core_properties:
+  identification:
+    - name: id
+      uri: '@id'
+      description: Globally unique IRI identifying the object
+      type: anyURI
+    - name: type
+      uri: '@type'
+      description: The type of the object
+      type: anyURI
+
+  activity:
+    - name: actor
+      uri: https://www.w3.org/ns/activitystreams#actor
+      description: The actor performing the activity
+      domain: Activity
+      range: Object or Link
+    - name: object
+      uri: https://www.w3.org/ns/activitystreams#object
+      description: The direct object of the activity
+      domain: Activity
+      range: Object or Link
+    - name: target
+      uri: https://www.w3.org/ns/activitystreams#target
+      description: The indirect target of the activity
+      domain: Activity
+      range: Object or Link
+    - name: result
+      uri: https://www.w3.org/ns/activitystreams#result
+      description: Describes the result of the activity
+      domain: Activity
+      range: Object or Link
+    - name: origin
+      uri: https://www.w3.org/ns/activitystreams#origin
+      description: Source of the activity for Move/Remove
+      domain: Activity
+      range: Object or Link
+    - name: instrument
+      uri: https://www.w3.org/ns/activitystreams#instrument
+      description: Instrument used to perform the activity
+      domain: Activity
+      range: Object or Link
+
+  audience:
+    - name: to
+      uri: https://www.w3.org/ns/activitystreams#to
+      description: Primary (public) addressing
+      type: anyURI or Object
+    - name: cc
+      uri: https://www.w3.org/ns/activitystreams#cc
+      description: Secondary (CC) addressing
+      type: anyURI or Object
+    - name: bto
+      uri: https://www.w3.org/ns/activitystreams#bto
+      description: Private primary addressing (stripped before delivery)
+      type: anyURI or Object
+    - name: bcc
+      uri: https://www.w3.org/ns/activitystreams#bcc
+      description: Private secondary addressing (stripped before delivery)
+      type: anyURI or Object
+    - name: audience
+      uri: https://www.w3.org/ns/activitystreams#audience
+      description: Additional audience for the object
+      type: Object or Link
+
+  temporal:
+    - name: published
+      uri: https://www.w3.org/ns/activitystreams#published
+      description: When the object was published
+      type: xsd:dateTime
+    - name: updated
+      uri: https://www.w3.org/ns/activitystreams#updated
+      description: When the object was last modified
+      type: xsd:dateTime
+    - name: startTime
+      uri: https://www.w3.org/ns/activitystreams#startTime
+      description: When the activity or event begins
+      type: xsd:dateTime
+    - name: endTime
+      uri: https://www.w3.org/ns/activitystreams#endTime
+      description: When the activity or event ends
+      type: xsd:dateTime
+    - name: duration
+      uri: https://www.w3.org/ns/activitystreams#duration
+      description: Duration of the object
+      type: xsd:duration
+
+  content:
+    - name: name
+      uri: https://www.w3.org/ns/activitystreams#name
+      description: Human-readable display name
+      type: string or rdf:langString
+    - name: content
+      uri: https://www.w3.org/ns/activitystreams#content
+      description: HTML or plain text content
+      type: string or rdf:langString
+    - name: summary
+      uri: https://www.w3.org/ns/activitystreams#summary
+      description: Short summary or content warning
+      type: string or rdf:langString
+    - name: url
+      uri: https://www.w3.org/ns/activitystreams#url
+      description: Canonical URL of the object
+      type: anyURI or Link
+    - name: mediaType
+      uri: https://www.w3.org/ns/activitystreams#mediaType
+      description: MIME type of the content or linked resource
+      type: string
+
+  relationships:
+    - name: inReplyTo
+      uri: https://www.w3.org/ns/activitystreams#inReplyTo
+      description: Object this is a reply to
+      type: Object or Link
+    - name: replies
+      uri: https://www.w3.org/ns/activitystreams#replies
+      description: Collection of replies
+      type: Collection
+    - name: context
+      uri: https://www.w3.org/ns/activitystreams#context
+      description: Conversational context
+      type: Object or Link
+    - name: attributedTo
+      uri: https://www.w3.org/ns/activitystreams#attributedTo
+      description: Attribution for the content
+      type: Object or Link
+    - name: tag
+      uri: https://www.w3.org/ns/activitystreams#tag
+      description: Tags, hashtags, or mentions
+      type: Object or Link
+    - name: attachment
+      uri: https://www.w3.org/ns/activitystreams#attachment
+      description: Media or other file attachments
+      type: Object or Link
+    - name: generator
+      uri: https://www.w3.org/ns/activitystreams#generator
+      description: Application that generated the object
+      type: Object or Link
+    - name: icon
+      uri: https://www.w3.org/ns/activitystreams#icon
+      description: Icon representing the object (avatar)
+      type: Image or Link
+    - name: image
+      uri: https://www.w3.org/ns/activitystreams#image
+      description: Image representing the object (banner)
+      type: Image or Link
+    - name: preview
+      uri: https://www.w3.org/ns/activitystreams#preview
+      description: Preview of the object
+      type: Object or Link
+
+  collection:
+    - name: items
+      uri: https://www.w3.org/ns/activitystreams#items
+      description: Unordered items in a Collection
+      type: Object or Link or OrderedItems
+    - name: orderedItems
+      uri: https://www.w3.org/ns/activitystreams#orderedItems
+      description: Ordered items in an OrderedCollection
+      type: Object or Link
+    - name: totalItems
+      uri: https://www.w3.org/ns/activitystreams#totalItems
+      description: Total count of items in the collection
+      type: xsd:nonNegativeInteger
+    - name: current
+      uri: https://www.w3.org/ns/activitystreams#current
+      description: Most recently updated page of the collection
+      type: CollectionPage or Link
+    - name: first
+      uri: https://www.w3.org/ns/activitystreams#first
+      description: First page of the collection
+      type: CollectionPage or Link
+    - name: last
+      uri: https://www.w3.org/ns/activitystreams#last
+      description: Last page of the collection
+      type: CollectionPage or Link
+    - name: next
+      uri: https://www.w3.org/ns/activitystreams#next
+      description: Next page (on a CollectionPage)
+      type: CollectionPage or Link
+    - name: prev
+      uri: https://www.w3.org/ns/activitystreams#prev
+      description: Previous page (on a CollectionPage)
+      type: CollectionPage or Link
+    - name: partOf
+      uri: https://www.w3.org/ns/activitystreams#partOf
+      description: Parent Collection of a CollectionPage
+      type: Collection or Link
+    - name: startIndex
+      uri: https://www.w3.org/ns/activitystreams#startIndex
+      description: Start index for OrderedCollectionPage
+      type: xsd:nonNegativeInteger
+
+  actor_endpoints:
+    - name: inbox
+      uri: http://www.w3.org/ns/ldp#inbox
+      description: Actor's inbox endpoint (OrderedCollection)
+      type: OrderedCollection
+    - name: outbox
+      uri: https://www.w3.org/ns/activitystreams#outbox
+      description: Actor's outbox endpoint (OrderedCollection)
+      type: OrderedCollection
+    - name: following
+      uri: https://www.w3.org/ns/activitystreams#following
+      description: Actors this actor follows
+      type: Collection
+    - name: followers
+      uri: https://www.w3.org/ns/activitystreams#followers
+      description: Actors following this actor
+      type: Collection
+    - name: liked
+      uri: https://www.w3.org/ns/activitystreams#liked
+      description: Objects this actor has liked
+      type: Collection
+    - name: streams
+      uri: https://www.w3.org/ns/activitystreams#streams
+      description: Additional streams of content associated with the actor
+      type: Collection
+    - name: preferredUsername
+      uri: https://www.w3.org/ns/activitystreams#preferredUsername
+      description: Short username used for mentions and WebFinger
+      type: string
+    - name: endpoints
+      uri: https://www.w3.org/ns/activitystreams#endpoints
+      description: JSON object of service endpoints for the actor
+      type: Object
+
+  location:
+    - name: location
+      uri: https://www.w3.org/ns/activitystreams#location
+      description: Current or last known location of the actor/object
+      type: Object or Link
+    - name: latitude
+      uri: https://www.w3.org/ns/activitystreams#latitude
+      description: Latitude in decimal degrees
+      type: xsd:float
+    - name: longitude
+      uri: https://www.w3.org/ns/activitystreams#longitude
+      description: Longitude in decimal degrees
+      type: xsd:float
+    - name: altitude
+      uri: https://www.w3.org/ns/activitystreams#altitude
+      description: Altitude in the specified units
+      type: xsd:float
+    - name: radius
+      uri: https://www.w3.org/ns/activitystreams#radius
+      description: Radius of uncertainty around location
+      type: xsd:float
+    - name: accuracy
+      uri: https://www.w3.org/ns/activitystreams#accuracy
+      description: Accuracy of location coordinates as percentage
+      type: xsd:float
+    - name: units
+      uri: https://www.w3.org/ns/activitystreams#units
+      description: Units for radius and altitude (cm, feet, inches, km, m, miles)
+      type: string
+
+  link:
+    - name: href
+      uri: https://www.w3.org/ns/activitystreams#href
+      description: Target IRI of the Link
+      type: anyURI
+    - name: hreflang
+      uri: https://www.w3.org/ns/activitystreams#hreflang
+      description: Language of the target resource (BCP 47)
+      type: string
+    - name: rel
+      uri: https://www.w3.org/ns/activitystreams#rel
+      description: Link relation type
+      type: string
+    - name: width
+      uri: https://www.w3.org/ns/activitystreams#width
+      description: Width in pixels (for Image/Video)
+      type: xsd:nonNegativeInteger
+    - name: height
+      uri: https://www.w3.org/ns/activitystreams#height
+      description: Height in pixels (for Image/Video)
+      type: xsd:nonNegativeInteger
+
+  question:
+    - name: oneOf
+      uri: https://www.w3.org/ns/activitystreams#oneOf
+      description: Single-answer poll options
+      type: Object or Link
+    - name: anyOf
+      uri: https://www.w3.org/ns/activitystreams#anyOf
+      description: Multiple-answer poll options
+      type: Object or Link
+    - name: closed
+      uri: https://www.w3.org/ns/activitystreams#closed
+      description: When/whether a Question is closed for answers
+      type: xsd:dateTime or boolean or Object or Link
+
+  relationship:
+    - name: subject
+      uri: https://www.w3.org/ns/activitystreams#subject
+      description: The subject of a Relationship
+      type: Object or Link
+    - name: relationship
+      uri: https://www.w3.org/ns/activitystreams#relationship
+      description: The relationship type
+      type: Object
+    - name: describes
+      uri: https://www.w3.org/ns/activitystreams#describes
+      description: The object described by a Profile
+      type: Object
+
+  tombstone:
+    - name: formerType
+      uri: https://www.w3.org/ns/activitystreams#formerType
+      description: Type of the deleted object
+      type: Object
+    - name: deleted
+      uri: https://www.w3.org/ns/activitystreams#deleted
+      description: Timestamp when the object was deleted
+      type: xsd:dateTime
+
+special_values:
+  public_addressing:
+    uri: https://www.w3.org/ns/activitystreams#Public
+    description: >-
+      Special IRI used in to/cc to address the general public. Activities addressed
+      to this IRI are publicly visible and must not require authentication to access.
+    example: https://www.w3.org/ns/activitystreams#Public

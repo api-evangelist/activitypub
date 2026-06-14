@@ -1,0 +1,290 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.github.io/activitypub/json-schema/activitypub-actor-schema.json",
+  "title": "ActivityPub Actor",
+  "description": "JSON Schema for an ActivityPub Actor object (Person, Application, Group, Organization, Service) as defined by https://www.w3.org/TR/activitypub/#actors",
+  "type": "object",
+  "required": ["@context", "id", "type", "inbox", "outbox"],
+  "properties": {
+    "@context": {
+      "description": "ActivityStreams 2.0 JSON-LD context",
+      "oneOf": [
+        {
+          "type": "string",
+          "const": "https://www.w3.org/ns/activitystreams"
+        },
+        {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "object" }
+            ]
+          }
+        }
+      ]
+    },
+    "id": {
+      "type": "string",
+      "format": "uri",
+      "description": "Globally unique IRI identifying the actor",
+      "examples": ["https://social.example/users/alyssa"]
+    },
+    "type": {
+      "type": "string",
+      "enum": ["Person", "Application", "Group", "Organization", "Service"],
+      "description": "The actor type"
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable display name",
+      "examples": ["Alyssa P. Hacker"]
+    },
+    "preferredUsername": {
+      "type": "string",
+      "description": "Short username for mentions and WebFinger lookup",
+      "examples": ["alyssa"]
+    },
+    "summary": {
+      "type": "string",
+      "description": "Actor biography or description (may contain HTML)"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Human-readable profile URL"
+    },
+    "inbox": {
+      "type": "string",
+      "format": "uri",
+      "description": "IRI of the actor's inbox OrderedCollection endpoint"
+    },
+    "outbox": {
+      "type": "string",
+      "format": "uri",
+      "description": "IRI of the actor's outbox OrderedCollection endpoint"
+    },
+    "followers": {
+      "type": "string",
+      "format": "uri",
+      "description": "IRI of the actor's followers collection"
+    },
+    "following": {
+      "type": "string",
+      "format": "uri",
+      "description": "IRI of the actor's following collection"
+    },
+    "liked": {
+      "type": "string",
+      "format": "uri",
+      "description": "IRI of the actor's liked collection (optional)"
+    },
+    "streams": {
+      "description": "Additional ordered collection streams associated with the actor",
+      "oneOf": [
+        { "type": "string", "format": "uri" },
+        {
+          "type": "array",
+          "items": { "type": "string", "format": "uri" }
+        }
+      ]
+    },
+    "icon": {
+      "description": "Avatar image for the actor",
+      "$ref": "#/$defs/ImageObject"
+    },
+    "image": {
+      "description": "Header or banner image for the actor",
+      "$ref": "#/$defs/ImageObject"
+    },
+    "published": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the actor was created"
+    },
+    "updated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the actor was last updated"
+    },
+    "publicKey": {
+      "type": "object",
+      "description": "Actor's public key for HTTP Signature verification",
+      "required": ["id", "owner", "publicKeyPem"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uri",
+          "examples": ["https://social.example/users/alyssa#main-key"]
+        },
+        "owner": {
+          "type": "string",
+          "format": "uri",
+          "examples": ["https://social.example/users/alyssa"]
+        },
+        "publicKeyPem": {
+          "type": "string",
+          "description": "PEM-encoded RSA public key"
+        }
+      }
+    },
+    "endpoints": {
+      "type": "object",
+      "description": "Additional ActivityPub service endpoints for this actor",
+      "properties": {
+        "sharedInbox": {
+          "type": "string",
+          "format": "uri",
+          "description": "Shared inbox for efficient bulk delivery of public posts"
+        },
+        "proxyUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Proxy URL for fetching remote objects with authentication"
+        },
+        "oauthAuthorizationEndpoint": {
+          "type": "string",
+          "format": "uri",
+          "description": "OAuth 2.0 authorization endpoint"
+        },
+        "oauthTokenEndpoint": {
+          "type": "string",
+          "format": "uri",
+          "description": "OAuth 2.0 token endpoint"
+        },
+        "provideClientKey": {
+          "type": "string",
+          "format": "uri",
+          "description": "Endpoint to authorize a client key for this actor"
+        },
+        "signClientKey": {
+          "type": "string",
+          "format": "uri",
+          "description": "Endpoint to sign a client key for another actor"
+        },
+        "uploadMedia": {
+          "type": "string",
+          "format": "uri",
+          "description": "Endpoint for client media uploads"
+        }
+      },
+      "additionalProperties": false
+    },
+    "tag": {
+      "type": "array",
+      "description": "Hashtags or Mention links associated with this actor",
+      "items": {
+        "oneOf": [
+          { "$ref": "#/$defs/Link" },
+          { "$ref": "#/$defs/ObjectRef" }
+        ]
+      }
+    },
+    "attachment": {
+      "type": "array",
+      "description": "Profile metadata fields or attachments",
+      "items": {
+        "$ref": "#/$defs/ObjectRef"
+      }
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "ImageObject": {
+      "type": "object",
+      "description": "An ActivityStreams Image object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "Image"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "mediaType": {
+          "type": "string",
+          "examples": ["image/jpeg", "image/png", "image/webp"]
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "Link": {
+      "type": "object",
+      "description": "An ActivityStreams Link or Mention",
+      "required": ["type", "href"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["Link", "Mention"]
+        },
+        "href": {
+          "type": "string",
+          "format": "uri"
+        },
+        "name": {
+          "type": "string"
+        },
+        "mediaType": {
+          "type": "string"
+        },
+        "hreflang": {
+          "type": "string"
+        }
+      }
+    },
+    "ObjectRef": {
+      "description": "Reference to an ActivityStreams object by IRI or embedded object",
+      "oneOf": [
+        {
+          "type": "string",
+          "format": "uri"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string", "format": "uri" },
+            "type": { "type": "string" },
+            "name": { "type": "string" },
+            "value": { "type": "string" }
+          }
+        }
+      ]
+    }
+  },
+  "examples": [
+    {
+      "@context": "https://www.w3.org/ns/activitystreams",
+      "id": "https://social.example/users/alyssa",
+      "type": "Person",
+      "name": "Alyssa P. Hacker",
+      "preferredUsername": "alyssa",
+      "summary": "Lisp enthusiast and hacker extraordinaire",
+      "inbox": "https://social.example/users/alyssa/inbox",
+      "outbox": "https://social.example/users/alyssa/outbox",
+      "followers": "https://social.example/users/alyssa/followers",
+      "following": "https://social.example/users/alyssa/following",
+      "liked": "https://social.example/users/alyssa/liked",
+      "publicKey": {
+        "id": "https://social.example/users/alyssa#main-key",
+        "owner": "https://social.example/users/alyssa",
+        "publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA...\n-----END PUBLIC KEY-----\n"
+      },
+      "endpoints": {
+        "sharedInbox": "https://social.example/inbox"
+      },
+      "icon": {
+        "type": "Image",
+        "mediaType": "image/jpeg",
+        "url": "https://social.example/users/alyssa/avatar.jpg"
+      }
+    }
+  ]
+}

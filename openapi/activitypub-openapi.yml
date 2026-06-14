@@ -1,0 +1,1180 @@
+openapi: 3.1.0
+info:
+  title: ActivityPub API
+  version: 1.0.0
+  description: >-
+    ActivityPub is a W3C Recommendation (https://www.w3.org/TR/activitypub/) that defines a
+    decentralized social networking protocol. It specifies both a client-to-server API for
+    creating and managing social content and a server-to-server federation protocol for
+    distributing activities across instances. Built on ActivityStreams 2.0 and JSON-LD,
+    ActivityPub powers the Fediverse — Mastodon, Pixelfed, PeerTube, and hundreds of other
+    platforms — enabling interoperable social networking across independently operated servers.
+  contact:
+    name: W3C Social Web Working Group
+    url: https://www.w3.org/wiki/Socialwg
+  license:
+    name: W3C Document License
+    url: https://www.w3.org/Consortium/Legal/2015/doc-license
+  externalDocs:
+    description: ActivityPub W3C Recommendation
+    url: https://www.w3.org/TR/activitypub/
+
+servers:
+  - url: https://{domain}
+    description: ActivityPub server (replace with your instance domain)
+    variables:
+      domain:
+        default: social.example
+        description: The domain of the ActivityPub server
+
+tags:
+  - name: Actors
+    description: Retrieve actor profile objects
+  - name: Inbox
+    description: Receive and read activities delivered to an actor
+  - name: Outbox
+    description: Publish activities from an actor and read their history
+  - name: Collections
+    description: Followers, following, and liked collections
+  - name: Discovery
+    description: WebFinger and NodeInfo discovery endpoints
+
+paths:
+  /.well-known/webfinger:
+    get:
+      operationId: getWebFinger
+      summary: Discover actor via WebFinger
+      description: >-
+        WebFinger (RFC 7033) endpoint for cross-instance actor discovery. Returns a JSON
+        Resource Descriptor (JRD) linking to the actor's canonical ActivityPub profile URL.
+        Enables user@domain addressing across the Fediverse.
+      tags:
+        - Discovery
+      parameters:
+        - name: resource
+          in: query
+          required: true
+          description: The resource to look up, e.g. acct:user@example.com
+          schema:
+            type: string
+            example: acct:alyssa@social.example
+        - name: rel
+          in: query
+          required: false
+          description: Filter links by relation type
+          schema:
+            type: string
+            example: self
+      responses:
+        '200':
+          description: JSON Resource Descriptor for the requested resource
+          content:
+            application/jrd+json:
+              schema:
+                $ref: '#/components/schemas/WebFingerResponse'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /.well-known/nodeinfo:
+    get:
+      operationId: getNodeInfoLinks
+      summary: Get NodeInfo link document
+      description: >-
+        Returns a document listing available NodeInfo endpoints for this server, following
+        the NodeInfo schema (https://nodeinfo.diaspora.software/). Used to discover server
+        capability metadata.
+      tags:
+        - Discovery
+      responses:
+        '200':
+          description: NodeInfo link document
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeInfoLinks'
+        '404':
+          description: NodeInfo not supported
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /nodeinfo/{version}:
+    get:
+      operationId: getNodeInfo
+      summary: Get NodeInfo server metadata
+      description: >-
+        Returns server capability metadata including software name, version, supported
+        protocols, usage statistics, and open registration status.
+      tags:
+        - Discovery
+      parameters:
+        - name: version
+          in: path
+          required: true
+          description: NodeInfo schema version (e.g. 2.0, 2.1)
+          schema:
+            type: string
+            example: '2.0'
+      responses:
+        '200':
+          description: NodeInfo server metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeInfo'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /users/{username}:
+    get:
+      operationId: getActor
+      summary: Retrieve actor profile
+      description: >-
+        Retrieves the ActivityPub actor object for the given username. The response is a
+        JSON-LD document conforming to ActivityStreams 2.0, containing the actor's IRI,
+        type, and required endpoint properties (inbox, outbox, followers, following).
+        Servers MUST return the actor object when a valid Accept header is sent.
+      tags:
+        - Actors
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: The local username of the actor
+          schema:
+            type: string
+            example: alyssa
+      responses:
+        '200':
+          description: Actor object as JSON-LD
+          content:
+            application/activity+json:
+              schema:
+                $ref: '#/components/schemas/Actor'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Actor'
+        '404':
+          description: Actor not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Access denied (or 404 for privacy)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /users/{username}/inbox:
+    get:
+      operationId: getInbox
+      summary: Read actor inbox
+      description: >-
+        Returns the actor's inbox as an OrderedCollection of received activities.
+        Requires authentication. The server SHOULD filter the inbox contents based on
+        the authenticated actor's access rights.
+      tags:
+        - Inbox
+      security:
+        - BearerAuth: []
+        - HTTPSignature: []
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: The local username of the actor
+          schema:
+            type: string
+            example: alyssa
+        - name: page
+          in: query
+          required: false
+          description: Page token or number for pagination
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Inbox as OrderedCollection
+          content:
+            application/activity+json:
+              schema:
+                $ref: '#/components/schemas/OrderedCollection'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/OrderedCollection'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      operationId: postToInbox
+      summary: Deliver activity to actor inbox (server-to-server)
+      description: >-
+        Used by remote servers to deliver activities to this actor's inbox as part of
+        server-to-server federation. The posting server MUST authenticate the request
+        using HTTP Signatures. The receiving server MUST validate the signature and
+        deduplicate activities.
+      tags:
+        - Inbox
+      security:
+        - HTTPSignature: []
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: The local username of the actor
+          schema:
+            type: string
+            example: alyssa
+      requestBody:
+        required: true
+        content:
+          application/activity+json:
+            schema:
+              $ref: '#/components/schemas/Activity'
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/Activity'
+      responses:
+        '200':
+          description: Activity accepted
+        '201':
+          description: Activity created and accepted
+        '400':
+          description: Bad request or invalid activity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized - missing or invalid HTTP Signature
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /users/{username}/outbox:
+    get:
+      operationId: getOutbox
+      summary: Read actor outbox
+      description: >-
+        Returns the actor's outbox as an OrderedCollection of published activities.
+        Publicly readable (may be filtered by authentication level). Supports pagination
+        via first, last, next, and prev collection page links.
+      tags:
+        - Outbox
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: The local username of the actor
+          schema:
+            type: string
+            example: alyssa
+        - name: page
+          in: query
+          required: false
+          description: Page token or number for pagination
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Outbox as OrderedCollection
+          content:
+            application/activity+json:
+              schema:
+                $ref: '#/components/schemas/OrderedCollection'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/OrderedCollection'
+        '404':
+          description: Actor not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      operationId: postToOutbox
+      summary: Publish activity (client-to-server)
+      description: >-
+        Used by authenticated clients to publish activities on behalf of an actor. The
+        server MUST assign an id to the activity and add it to the actor's outbox. The
+        server then federates the activity to the appropriate recipients based on addressing
+        fields (to, cc, bcc, audience). Returns 201 Created with a Location header pointing
+        to the new activity's IRI.
+      tags:
+        - Outbox
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: The local username of the actor
+          schema:
+            type: string
+            example: alyssa
+      requestBody:
+        required: true
+        content:
+          application/activity+json:
+            schema:
+              $ref: '#/components/schemas/Activity'
+          application/ld+json:
+            schema:
+              $ref: '#/components/schemas/Activity'
+      responses:
+        '201':
+          description: Activity published successfully
+          headers:
+            Location:
+              description: IRI of the newly created activity
+              schema:
+                type: string
+                format: uri
+        '400':
+          description: Bad request or invalid activity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /users/{username}/followers:
+    get:
+      operationId: getFollowers
+      summary: Get actor followers collection
+      description: >-
+        Returns the collection of actors that follow this actor, as a Collection or
+        OrderedCollection. Visibility may be filtered based on the requester's authentication
+        level and the actor's privacy settings.
+      tags:
+        - Collections
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: The local username of the actor
+          schema:
+            type: string
+            example: alyssa
+        - name: page
+          in: query
+          required: false
+          description: Page token or number for pagination
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Followers collection
+          content:
+            application/activity+json:
+              schema:
+                $ref: '#/components/schemas/Collection'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Collection'
+        '404':
+          description: Actor not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /users/{username}/following:
+    get:
+      operationId: getFollowing
+      summary: Get actor following collection
+      description: >-
+        Returns the collection of actors that this actor follows, as a Collection or
+        OrderedCollection. Visibility may be filtered based on the requester's authentication
+        level and the actor's privacy settings.
+      tags:
+        - Collections
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: The local username of the actor
+          schema:
+            type: string
+            example: alyssa
+        - name: page
+          in: query
+          required: false
+          description: Page token or number for pagination
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Following collection
+          content:
+            application/activity+json:
+              schema:
+                $ref: '#/components/schemas/Collection'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Collection'
+        '404':
+          description: Actor not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /users/{username}/liked:
+    get:
+      operationId: getLiked
+      summary: Get actor liked collection
+      description: >-
+        Returns the optional OrderedCollection of objects the actor has liked. Posting a
+        Like activity to the actor's outbox adds the referenced object to this collection.
+        Supports pagination through the standard ActivityStreams 2.0 collection paging mechanism.
+      tags:
+        - Collections
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: The local username of the actor
+          schema:
+            type: string
+            example: alyssa
+        - name: page
+          in: query
+          required: false
+          description: Page token or number for pagination
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Liked collection
+          content:
+            application/activity+json:
+              schema:
+                $ref: '#/components/schemas/OrderedCollection'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/OrderedCollection'
+        '404':
+          description: Actor not found or liked collection not exposed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 bearer token for client-to-server authentication
+    HTTPSignature:
+      type: apiKey
+      in: header
+      name: Signature
+      description: >-
+        HTTP Signatures (draft-cavage-http-signatures) for server-to-server authentication.
+        The Signature header contains keyId, algorithm, headers, and signature fields.
+
+  schemas:
+    ASContext:
+      description: ActivityStreams 2.0 JSON-LD context
+      oneOf:
+        - type: string
+          example: https://www.w3.org/ns/activitystreams
+        - type: array
+          items:
+            oneOf:
+              - type: string
+              - type: object
+
+    Actor:
+      type: object
+      description: >-
+        An ActivityPub Actor object representing an entity capable of performing activities.
+        Actor types include Person, Application, Group, Organization, and Service.
+      required:
+        - '@context'
+        - id
+        - type
+        - inbox
+        - outbox
+      properties:
+        '@context':
+          $ref: '#/components/schemas/ASContext'
+        id:
+          type: string
+          format: uri
+          description: Globally unique IRI identifying the actor
+          example: https://social.example/users/alyssa
+        type:
+          type: string
+          enum: [Person, Application, Group, Organization, Service]
+          description: The actor type
+          example: Person
+        name:
+          type: string
+          description: Display name of the actor
+          example: Alyssa P. Hacker
+        preferredUsername:
+          type: string
+          description: Short username for the actor (used in mentions and WebFinger)
+          example: alyssa
+        summary:
+          type: string
+          description: Bio or description of the actor (may contain HTML)
+          example: Lisp enthusiast and hacker extraordinaire
+        url:
+          type: string
+          format: uri
+          description: Human-readable profile URL
+          example: https://social.example/@alyssa
+        inbox:
+          type: string
+          format: uri
+          description: IRI of the actor's inbox OrderedCollection
+          example: https://social.example/users/alyssa/inbox
+        outbox:
+          type: string
+          format: uri
+          description: IRI of the actor's outbox OrderedCollection
+          example: https://social.example/users/alyssa/outbox
+        followers:
+          type: string
+          format: uri
+          description: IRI of the actor's followers collection
+          example: https://social.example/users/alyssa/followers
+        following:
+          type: string
+          format: uri
+          description: IRI of the actor's following collection
+          example: https://social.example/users/alyssa/following
+        liked:
+          type: string
+          format: uri
+          description: IRI of the actor's liked collection (optional)
+          example: https://social.example/users/alyssa/liked
+        publicKey:
+          type: object
+          description: Actor's public key for HTTP Signature verification
+          properties:
+            id:
+              type: string
+              format: uri
+              example: https://social.example/users/alyssa#main-key
+            owner:
+              type: string
+              format: uri
+              example: https://social.example/users/alyssa
+            publicKeyPem:
+              type: string
+              description: PEM-encoded RSA public key
+        endpoints:
+          type: object
+          description: Additional endpoints for the actor
+          properties:
+            sharedInbox:
+              type: string
+              format: uri
+              description: Shared inbox for efficient bulk delivery of public posts
+              example: https://social.example/inbox
+            oauthAuthorizationEndpoint:
+              type: string
+              format: uri
+            oauthTokenEndpoint:
+              type: string
+              format: uri
+            proxyUrl:
+              type: string
+              format: uri
+        icon:
+          $ref: '#/components/schemas/ImageObject'
+        image:
+          $ref: '#/components/schemas/ImageObject'
+        published:
+          type: string
+          format: date-time
+          description: When the actor was created
+        updated:
+          type: string
+          format: date-time
+          description: When the actor was last updated
+
+    Activity:
+      type: object
+      description: >-
+        An ActivityStreams 2.0 Activity describing an action performed by an actor.
+        Common activity types: Create, Update, Delete, Follow, Accept, Reject, Announce,
+        Like, Dislike, Undo, Block, Add, Remove, Flag.
+      required:
+        - '@context'
+        - type
+        - actor
+      properties:
+        '@context':
+          $ref: '#/components/schemas/ASContext'
+        id:
+          type: string
+          format: uri
+          description: Globally unique IRI identifying the activity (assigned by server)
+          example: https://social.example/users/alyssa/activities/12345
+        type:
+          type: string
+          description: The activity type
+          enum:
+            - Accept
+            - Add
+            - Announce
+            - Arrive
+            - Block
+            - Create
+            - Delete
+            - Dislike
+            - Flag
+            - Follow
+            - Ignore
+            - Invite
+            - Join
+            - Leave
+            - Like
+            - Listen
+            - Move
+            - Offer
+            - Question
+            - Read
+            - Reject
+            - Remove
+            - TentativeAccept
+            - TentativeReject
+            - Travel
+            - Undo
+            - Update
+            - View
+          example: Create
+        actor:
+          description: The actor performing the activity (IRI or Actor object)
+          oneOf:
+            - type: string
+              format: uri
+            - $ref: '#/components/schemas/Actor'
+        object:
+          description: The object upon which the activity is performed
+          oneOf:
+            - type: string
+              format: uri
+            - $ref: '#/components/schemas/ASObject'
+        target:
+          description: The indirect object or target of the activity
+          oneOf:
+            - type: string
+              format: uri
+            - $ref: '#/components/schemas/ASObject'
+        to:
+          description: Primary audience (public, followers, specific actors)
+          oneOf:
+            - type: string
+              format: uri
+            - type: array
+              items:
+                type: string
+                format: uri
+        cc:
+          description: Secondary (carbon copy) audience
+          oneOf:
+            - type: string
+              format: uri
+            - type: array
+              items:
+                type: string
+                format: uri
+        bto:
+          description: Private primary audience (stripped before delivery)
+          oneOf:
+            - type: string
+              format: uri
+            - type: array
+              items:
+                type: string
+                format: uri
+        bcc:
+          description: Private secondary audience (stripped before delivery)
+          oneOf:
+            - type: string
+              format: uri
+            - type: array
+              items:
+                type: string
+                format: uri
+        published:
+          type: string
+          format: date-time
+          description: When the activity occurred
+        summary:
+          type: string
+          description: Short summary or content warning
+        result:
+          description: The result or output of the activity
+          oneOf:
+            - type: string
+              format: uri
+            - $ref: '#/components/schemas/ASObject'
+        origin:
+          description: The source of the activity (e.g., for Move)
+          oneOf:
+            - type: string
+              format: uri
+            - $ref: '#/components/schemas/ASObject'
+        instrument:
+          description: Tool or instrument used to perform the activity
+          oneOf:
+            - type: string
+              format: uri
+            - $ref: '#/components/schemas/ASObject'
+
+    ASObject:
+      type: object
+      description: >-
+        Base ActivityStreams 2.0 Object type. Encompasses Note, Article, Image, Video,
+        Audio, Document, Page, Event, Place, Profile, Relationship, Tombstone, and Question.
+      properties:
+        '@context':
+          $ref: '#/components/schemas/ASContext'
+        id:
+          type: string
+          format: uri
+          description: Globally unique IRI identifying the object
+        type:
+          type: string
+          description: Object type
+          enum:
+            - Object
+            - Article
+            - Audio
+            - Document
+            - Event
+            - Image
+            - Note
+            - Page
+            - Place
+            - Profile
+            - Relationship
+            - Tombstone
+            - Video
+          example: Note
+        name:
+          type: string
+          description: Human-readable display name
+        content:
+          type: string
+          description: HTML or text content of the object
+          example: Say, did you finish reading that book I lent you?
+        contentMap:
+          type: object
+          additionalProperties:
+            type: string
+          description: Language-tagged content variants (BCP47 language codes as keys)
+        summary:
+          type: string
+          description: Short summary or content warning
+        url:
+          type: string
+          format: uri
+          description: Canonical URL of the object
+        attributedTo:
+          description: Actor(s) to attribute this object to
+          oneOf:
+            - type: string
+              format: uri
+            - type: array
+              items:
+                type: string
+                format: uri
+        to:
+          description: Primary audience
+          oneOf:
+            - type: string
+              format: uri
+            - type: array
+              items:
+                type: string
+                format: uri
+        cc:
+          description: Secondary audience
+          oneOf:
+            - type: string
+              format: uri
+            - type: array
+              items:
+                type: string
+                format: uri
+        inReplyTo:
+          description: Object this is a reply to
+          oneOf:
+            - type: string
+              format: uri
+            - type: array
+              items:
+                type: string
+                format: uri
+        replies:
+          description: Collection of replies to this object
+          oneOf:
+            - type: string
+              format: uri
+            - $ref: '#/components/schemas/Collection'
+        tag:
+          description: Tags, hashtags, or mentions associated with this object
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/Link'
+              - $ref: '#/components/schemas/ASObject'
+        attachment:
+          description: Media or other attachments
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/Link'
+              - $ref: '#/components/schemas/ASObject'
+        mediaType:
+          type: string
+          description: MIME type of the content
+          example: text/html
+        published:
+          type: string
+          format: date-time
+        updated:
+          type: string
+          format: date-time
+        sensitive:
+          type: boolean
+          description: >-
+            Whether the content is sensitive (Mastodon extension, widely adopted)
+          example: false
+        formerType:
+          type: string
+          description: Former type before object was deleted (Tombstone only)
+        deleted:
+          type: string
+          format: date-time
+          description: When the object was deleted (Tombstone only)
+
+    Collection:
+      type: object
+      description: An ActivityStreams 2.0 Collection of Objects or Links
+      required:
+        - type
+        - id
+      properties:
+        '@context':
+          $ref: '#/components/schemas/ASContext'
+        id:
+          type: string
+          format: uri
+          description: IRI of the collection
+        type:
+          type: string
+          enum: [Collection, OrderedCollection]
+          example: Collection
+        totalItems:
+          type: integer
+          description: Total number of items in the collection
+          example: 42
+        current:
+          type: string
+          format: uri
+          description: IRI of the most recent page
+        first:
+          type: string
+          format: uri
+          description: IRI of the first page
+        last:
+          type: string
+          format: uri
+          description: IRI of the last page
+        items:
+          type: array
+          description: Items in the collection (unordered)
+          items:
+            oneOf:
+              - type: string
+                format: uri
+              - $ref: '#/components/schemas/ASObject'
+              - $ref: '#/components/schemas/Activity'
+
+    OrderedCollection:
+      type: object
+      description: An ActivityStreams 2.0 OrderedCollection with temporally ordered items
+      required:
+        - type
+        - id
+      properties:
+        '@context':
+          $ref: '#/components/schemas/ASContext'
+        id:
+          type: string
+          format: uri
+          description: IRI of the ordered collection
+        type:
+          type: string
+          enum: [OrderedCollection]
+          example: OrderedCollection
+        totalItems:
+          type: integer
+          description: Total number of items in the collection
+          example: 15
+        current:
+          type: string
+          format: uri
+          description: IRI of the most recent page
+        first:
+          type: string
+          format: uri
+          description: IRI of the first page
+        last:
+          type: string
+          format: uri
+          description: IRI of the last page
+        orderedItems:
+          type: array
+          description: Temporally ordered items (most recent first)
+          items:
+            oneOf:
+              - type: string
+                format: uri
+              - $ref: '#/components/schemas/ASObject'
+              - $ref: '#/components/schemas/Activity'
+
+    OrderedCollectionPage:
+      type: object
+      description: A single page of an OrderedCollection
+      required:
+        - type
+        - id
+        - partOf
+      properties:
+        '@context':
+          $ref: '#/components/schemas/ASContext'
+        id:
+          type: string
+          format: uri
+        type:
+          type: string
+          enum: [OrderedCollectionPage]
+        partOf:
+          type: string
+          format: uri
+          description: IRI of the parent OrderedCollection
+        orderedItems:
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/ASObject'
+              - $ref: '#/components/schemas/Activity'
+        next:
+          type: string
+          format: uri
+          description: IRI of the next page
+        prev:
+          type: string
+          format: uri
+          description: IRI of the previous page
+        startIndex:
+          type: integer
+          description: Start index of items on this page within the full collection
+
+    Link:
+      type: object
+      description: An ActivityStreams 2.0 Link, a qualified reference to another resource
+      required:
+        - type
+        - href
+      properties:
+        type:
+          type: string
+          enum: [Link, Mention]
+          example: Mention
+        href:
+          type: string
+          format: uri
+          description: Target IRI of the link
+        name:
+          type: string
+          description: Display name for the link
+        mediaType:
+          type: string
+          description: MIME type of the target resource
+        hreflang:
+          type: string
+          description: Language of the target resource (BCP 47)
+        rel:
+          description: Link relation type(s)
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+
+    ImageObject:
+      type: object
+      description: An ActivityStreams 2.0 Image object
+      properties:
+        type:
+          type: string
+          enum: [Image]
+        url:
+          type: string
+          format: uri
+        mediaType:
+          type: string
+          example: image/jpeg
+        width:
+          type: integer
+        height:
+          type: integer
+
+    WebFingerResponse:
+      type: object
+      description: JSON Resource Descriptor (JRD) per RFC 7033
+      required:
+        - subject
+      properties:
+        subject:
+          type: string
+          description: The queried resource
+          example: acct:alyssa@social.example
+        aliases:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Alternative URIs for the subject
+        properties:
+          type: object
+          additionalProperties:
+            type: string
+          description: Properties of the subject resource
+        links:
+          type: array
+          items:
+            type: object
+            required:
+              - rel
+            properties:
+              rel:
+                type: string
+                description: Link relation type
+                example: self
+              type:
+                type: string
+                description: Media type of the target resource
+                example: application/activity+json
+              href:
+                type: string
+                format: uri
+                description: IRI of the linked resource
+                example: https://social.example/users/alyssa
+              titles:
+                type: object
+                additionalProperties:
+                  type: string
+              properties:
+                type: object
+                additionalProperties:
+                  type: string
+
+    NodeInfoLinks:
+      type: object
+      description: NodeInfo link document at /.well-known/nodeinfo
+      properties:
+        links:
+          type: array
+          items:
+            type: object
+            properties:
+              rel:
+                type: string
+                format: uri
+                example: http://nodeinfo.diaspora.software/ns/schema/2.0
+              href:
+                type: string
+                format: uri
+                example: https://social.example/nodeinfo/2.0
+
+    NodeInfo:
+      type: object
+      description: NodeInfo server capability metadata
+      properties:
+        version:
+          type: string
+          example: '2.0'
+        software:
+          type: object
+          properties:
+            name:
+              type: string
+              example: mastodon
+            version:
+              type: string
+              example: 4.2.0
+        protocols:
+          type: array
+          items:
+            type: string
+          example: [activitypub]
+        usage:
+          type: object
+          properties:
+            users:
+              type: object
+              properties:
+                total:
+                  type: integer
+                activeMonth:
+                  type: integer
+                activeHalfyear:
+                  type: integer
+            localPosts:
+              type: integer
+            localComments:
+              type: integer
+        openRegistrations:
+          type: boolean
+          description: Whether the server accepts new user registrations
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error code or short description
+        error_description:
+          type: string
+          description: Human-readable error detail
