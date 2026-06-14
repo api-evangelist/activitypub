@@ -1,0 +1,109 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: ActivityPub
+providerId: activitypub
+created: '2026-06-13'
+modified: '2026-06-13'
+reconciled: true
+tags:
+  - Social Networks
+  - Open Standard
+  - Federation
+  - W3C
+description: ActivityPub is an open W3C standard protocol with no commercial licensing fees.
+  Costs are entirely determined by the server software and hosting chosen to implement it.
+  Common open-source ActivityPub server implementations (Mastodon, Pixelfed, PeerTube, etc.)
+  are free to self-host; managed hosting providers charge based on compute and storage.
+sources:
+  - https://www.w3.org/TR/activitypub/
+  - https://activitypub.rocks/
+plans:
+  - id: activitypub-self-hosted-free
+    name: Self-Hosted (Open Source)
+    type: free
+    description: Run any open-source ActivityPub implementation (Mastodon, Misskey, Pixelfed,
+      PeerTube, Pleroma, etc.) on your own infrastructure. No licensing fees; costs are
+      infrastructure-only.
+    entries:
+      - label: Protocol usage
+        name: protocol
+        type: flat
+        metric: none
+        limit: -1
+        timeFrame: none
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+    elements:
+      - name: Full ActivityPub protocol support
+      - name: Server-to-server federation
+      - name: Client-to-server API
+      - name: WebFinger discovery
+      - name: No per-request or per-user fees
+  - id: activitypub-managed-hosting-small
+    name: Managed Hosting — Small Instance
+    type: subscription
+    description: Typical entry-level managed Mastodon/ActivityPub hosting (e.g., masto.host,
+      Cloudplane). Pricing varies by provider; representative small tier.
+    entries:
+      - label: Monthly managed hosting fee
+        name: managed_small
+        type: subscription
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '6.00'
+        userMultiplied: false
+    elements:
+      - name: Managed server administration
+      - name: Up to ~100 users
+      - name: Automatic updates and backups
+      - name: ActivityPub federation enabled
+  - id: activitypub-managed-hosting-medium
+    name: Managed Hosting — Medium Instance
+    type: subscription
+    description: Mid-tier managed ActivityPub hosting suitable for communities of hundreds of users.
+    entries:
+      - label: Monthly managed hosting fee
+        name: managed_medium
+        type: subscription
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '19.00'
+        userMultiplied: false
+    elements:
+      - name: Managed server administration
+      - name: Up to ~500 users
+      - name: Custom domain
+      - name: Email relay included
+      - name: ActivityPub federation enabled
+  - id: activitypub-enterprise
+    name: Enterprise / Custom Deployment
+    type: enterprise
+    description: Large-scale self-hosted or managed deployments for enterprise social platforms,
+      news organizations, or governments. Costs reflect infrastructure at scale; no standard
+      public price list exists.
+    entries:
+      - label: Custom infrastructure cost
+        name: enterprise
+        type: subscription
+        metric: contract
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: custom
+        userMultiplied: false
+    elements:
+      - name: Full protocol compliance
+      - name: Custom moderation tooling
+      - name: SLA-backed managed hosting optional
+      - name: Media storage at scale
+      - name: Dedicated support contracts

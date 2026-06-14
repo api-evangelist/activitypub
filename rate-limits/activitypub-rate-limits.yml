@@ -1,0 +1,73 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: ActivityPub
+providerId: activitypub
+created: '2026-06-13'
+modified: '2026-06-13'
+reconciled: true
+tags:
+  - Rate Limiting
+  - Social Networks
+  - Federation
+description: ActivityPub is an open protocol with no centrally mandated rate limits. Each
+  server implementation sets its own limits. The values below are representative defaults
+  from common implementations such as Mastodon and Misskey. Server operators may tune
+  these values based on their capacity.
+sources:
+  - https://www.w3.org/TR/activitypub/
+  - https://docs.joinmastodon.org/api/rate-limits/
+  - https://github.com/misskey-dev/misskey
+responseCodes:
+  throttled: 429
+  unauthorized: 401
+limits:
+  - name: Client-to-server API (authenticated)
+    scope: user
+    metric: requests_per_5_minutes
+    limit: 300
+    timeFrame: 5 minutes
+    notes: Representative Mastodon default for authenticated client requests (e.g., posting,
+      reading timelines). Unauthenticated requests have lower limits.
+  - name: Client-to-server API (unauthenticated)
+    scope: ip
+    metric: requests_per_5_minutes
+    limit: 100
+    timeFrame: 5 minutes
+    notes: Unauthenticated read requests limited per IP address on most implementations.
+  - name: Server-to-server inbox delivery
+    scope: remote-server
+    metric: requests_per_second
+    limit: 10
+    timeFrame: second
+    notes: Inbound federation delivery rate from any single remote server. Implementations
+      typically queue and retry delivery with exponential backoff on 429 or 503 responses.
+  - name: Media upload
+    scope: user
+    metric: requests_per_30_minutes
+    limit: 30
+    timeFrame: 30 minutes
+    notes: Media attachment uploads are rate-limited separately from API calls due to
+      bandwidth cost. Mastodon default is approximately 30 uploads per 30 minutes.
+  - name: Account creation
+    scope: ip
+    metric: requests_per_day
+    limit: 5
+    timeFrame: day
+    notes: New account registrations are heavily throttled per IP to prevent spam signup.
+policies:
+  - name: Retry-After header
+    description: When a 429 is returned, implementations include a Retry-After header
+      indicating when the client may retry. Clients must respect this header.
+  - name: Federation backoff
+    description: When delivering to remote inboxes, servers must implement exponential
+      backoff and retry queues. Persistent failures result in the remote server being
+      marked as unreachable temporarily.
+  - name: HTTP Signatures
+    description: All server-to-server POST requests must be signed with HTTP Signatures
+      (using the sending actor's private key). Unsigned or invalid deliveries are rejected
+      with 401 or 403 before rate limiting applies.
+  - name: Implementation-defined limits
+    description: Because ActivityPub is a decentralized protocol, there is no universal
+      authority for rate limits. Each server operator configures limits appropriate for
+      their infrastructure. Clients should handle 429 gracefully on any endpoint.

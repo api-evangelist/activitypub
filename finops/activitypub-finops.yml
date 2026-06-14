@@ -1,0 +1,93 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: ActivityPub
+providerId: activitypub
+created: '2026-06-13'
+modified: '2026-06-13'
+reconciled: true
+tags:
+  - FinOps
+  - Cost Management
+  - Social Networks
+  - Open Standard
+description: FinOps for ActivityPub is infrastructure-centric rather than API-fee-centric,
+  since ActivityPub itself is a royalty-free W3C standard with no per-call charges. Cost
+  centers are the compute, storage, bandwidth, and managed services used to operate a
+  federated ActivityPub server.
+sources:
+  - https://www.w3.org/TR/activitypub/
+  - https://activitypub.rocks/
+  - https://docs.joinmastodon.org/admin/scaling/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: W3C (Standard); various server operators
+serviceCategory: Social Networking Infrastructure
+billingModel:
+  pricingCategory: Infrastructure / Managed Hosting Subscription
+  billingFrequency: Monthly
+  billingCurrency: USD (varies by hosting provider)
+  chargeCategories:
+    - Usage
+    - Purchase
+    - Subscription
+focusColumns:
+  ServiceName: ActivityPub Server
+  ServiceCategory: Social Networking
+  ProviderName: Self-hosted or managed hosting provider
+  PublisherName: Server operator
+  InvoiceIssuerName: Hosting/cloud provider
+  BillingCurrency: USD
+meters:
+  - name: compute_hours
+    unit: vCPU-hour
+    aggregation: sum
+    dimensions:
+      - instance_type
+      - region
+    notes: Primary cost driver for application server, Sidekiq workers, and streaming API.
+  - name: storage_gb
+    unit: GB-month
+    aggregation: sum
+    dimensions:
+      - storage_type
+      - region
+    notes: Database (PostgreSQL) and media attachment storage (object store or block storage).
+  - name: bandwidth_gb
+    unit: GB
+    aggregation: sum
+    dimensions:
+      - direction
+      - region
+    notes: Federation delivery and media serving generate significant egress bandwidth costs.
+  - name: media_objects
+    unit: object
+    aggregation: sum
+    notes: Count of media files stored; relevant for object storage cost optimization.
+  - name: federation_requests
+    unit: request
+    aggregation: sum
+    dimensions:
+      - remote_server
+    notes: HTTP POST deliveries to remote server inboxes; useful for identifying noisy
+      remote peers driving disproportionate outbound traffic.
+principles:
+  - name: Visibility
+    description: Export server metrics (Prometheus/Grafana) to track federation volume,
+      active users, media storage growth, and bandwidth per remote peer domain.
+  - name: Allocation
+    description: Tag cloud resources by instance role (web, worker, database, media CDN)
+      to attribute costs accurately. Use object storage lifecycle policies to expire
+      cached remote media and control storage growth.
+  - name: Optimization
+    description: Use a CDN for media serving to reduce origin bandwidth costs. Scale
+      Sidekiq workers based on federation queue depth. Archive or prune old remote
+      content with tootctl media remove to reclaim storage.
+  - name: Accountability
+    description: Review top federated domains by volume monthly. Defederate high-volume
+      spam sources to reduce wasted compute and bandwidth. Right-size database instances
+      based on query performance vs. cost.

@@ -1,0 +1,200 @@
+aid: activitypub
+url: https://raw.githubusercontent.com/api-evangelist/activitypub/refs/heads/main/apis.yml
+apis:
+  - aid: activitypub:activitypub-actors-api
+    name: ActivityPub Actors API
+    tags:
+      - Actors
+      - Profiles
+      - Social Networks
+    properties:
+      - url: https://www.w3.org/TR/activitypub/#actors
+        type: Documentation
+      - url: https://www.w3.org/TR/activitypub/#actor-objects
+        type: APIReference
+    description: >-
+      Actors are the primary objects in ActivityPub that represent entities capable of performing
+      activities. Each actor has a unique IRI and exposes properties such as inbox, outbox,
+      followers, following, and liked collections. Actor objects are retrieved via HTTP GET and
+      served as JSON-LD using the ActivityStreams 2.0 vocabulary.
+  - aid: activitypub:activitypub-inbox-api
+    name: ActivityPub Inbox API
+    tags:
+      - Inbox
+      - Messages
+      - Delivery
+      - Social Networks
+    properties:
+      - url: https://www.w3.org/TR/activitypub/#inbox
+        type: Documentation
+      - url: https://www.w3.org/TR/activitypub/#server-to-server-interactions
+        type: APIReference
+    description: >-
+      The inbox is an OrderedCollection endpoint on each actor that receives activities delivered
+      by remote servers. Servers POST activities to an actor's inbox to federate content. The
+      inbox also supports GET for authorized clients to retrieve received activities. ActivityPub
+      uses HTTP Signatures for server-to-server authentication when delivering to inboxes.
+  - aid: activitypub:activitypub-outbox-api
+    name: ActivityPub Outbox API
+    tags:
+      - Outbox
+      - Publishing
+      - Activities
+      - Social Networks
+    properties:
+      - url: https://www.w3.org/TR/activitypub/#outbox
+        type: Documentation
+      - url: https://www.w3.org/TR/activitypub/#client-to-server-interactions
+        type: APIReference
+    description: >-
+      The outbox is an OrderedCollection endpoint that stores activities published by an actor.
+      Clients POST activities to an actor's outbox to create, update, delete, follow, like, and
+      perform other social interactions. The server then federates these activities to the
+      appropriate recipients. The outbox also supports GET for reading published activities.
+  - aid: activitypub:activitypub-followers-following-api
+    name: ActivityPub Followers and Following API
+    tags:
+      - Followers
+      - Following
+      - Social Graph
+      - Social Networks
+    properties:
+      - url: https://www.w3.org/TR/activitypub/#followers
+        type: Documentation
+      - url: https://www.w3.org/TR/activitypub/#following
+        type: APIReference
+    description: >-
+      Actors expose followers and following as OrderedCollection or Collection endpoints.
+      These endpoints enumerate the social graph connections for an actor. The Follow activity
+      posted to the outbox initiates a follow relationship; the target actor can accept or reject
+      via Accept or Reject activities. These collections are pageable via OrderedCollectionPage.
+  - aid: activitypub:activitypub-liked-api
+    name: ActivityPub Liked Collection API
+    tags:
+      - Liked
+      - Reactions
+      - Activities
+      - Social Networks
+    properties:
+      - url: https://www.w3.org/TR/activitypub/#liked
+        type: Documentation
+    description: >-
+      The liked collection is an optional OrderedCollection endpoint on an actor listing
+      all objects the actor has liked. Posting a Like activity to the actor's outbox adds
+      the referenced object to this collection. It is publicly readable and supports pagination
+      through the standard ActivityStreams 2.0 collection paging mechanism.
+  - aid: activitypub:activitypub-object-delivery-api
+    name: ActivityPub Object and Activity Delivery API
+    tags:
+      - Activities
+      - Objects
+      - Delivery
+      - Federation
+      - Social Networks
+    properties:
+      - url: https://www.w3.org/TR/activitypub/#delivery
+        type: Documentation
+      - url: https://www.w3.org/TR/activitypub/#activity-types
+        type: APIReference
+    description: >-
+      ActivityPub defines a server-to-server federation protocol for delivering activities between
+      instances. Servers dereference actor inboxes from WebFinger or direct URLs, then HTTP POST
+      signed Activity objects (Create, Update, Delete, Announce, Follow, Accept, Reject, Undo,
+      Block, etc.) using JSON-LD with the ActivityStreams context. Delivery handles addressing
+      via to, cc, bcc, and audience fields.
+  - aid: activitypub:activitypub-webfinger-api
+    name: ActivityPub WebFinger Discovery API
+    tags:
+      - WebFinger
+      - Discovery
+      - Identity
+      - Social Networks
+    properties:
+      - url: https://www.w3.org/TR/activitypub/#security-considerations
+        type: Documentation
+      - url: https://webfinger.net/
+        type: APIReference
+      - url: https://www.rfc-editor.org/rfc/rfc7033
+        type: Documentation
+    description: >-
+      ActivityPub implementations commonly use WebFinger (RFC 7033) for actor discovery.
+      A GET request to /.well-known/webfinger?resource=acct:user@example.com returns a
+      JSON Resource Descriptor (JRD) linking to the actor's canonical ActivityPub profile URL.
+      WebFinger enables cross-instance lookup of actors using familiar user@domain addressing
+      across the Fediverse.
+  - aid: activitypub:activitypub-nodeinfo-api
+    name: ActivityPub NodeInfo API
+    tags:
+      - NodeInfo
+      - Discovery
+      - Server Metadata
+      - Social Networks
+    properties:
+      - url: https://nodeinfo.diaspora.software/
+        type: Documentation
+      - url: https://www.w3.org/TR/activitypub/#actor-objects
+        type: APIReference
+    description: >-
+      NodeInfo is a complementary protocol used by ActivityPub servers to expose server
+      capability metadata at /.well-known/nodeinfo. It describes the software name, version,
+      supported protocols, usage statistics, and open registration status, enabling clients
+      and crawlers to understand server capabilities without inspecting individual actors.
+name: ActivityPub
+tags:
+  - Open Standard
+  - Social Networks
+  - Federation
+  - Fediverse
+  - W3C
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+access: 3rd-Party
+created: '2026-06-13'
+modified: '2026-06-13'
+position: Consumer
+description: >-
+  ActivityPub is a W3C Recommendation that defines a decentralized social networking protocol
+  and REST API standard for federated social interactions. It provides both a client-to-server
+  API for creating and managing social content and a server-to-server federation protocol for
+  distributing activities across instances. Built on ActivityStreams 2.0 and JSON-LD, it powers
+  the Fediverse — including Mastodon, Pixelfed, PeerTube, and hundreds of other platforms —
+  enabling interoperable social networking across independently operated servers.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+  - FN: APIs.json
+    email: info@apis.io
+specificationVersion: '0.19'
+common:
+  - type: Website
+    url: https://activitypub.rocks/
+  - type: Documentation
+    url: https://www.w3.org/TR/activitypub/
+  - type: Specification
+    url: https://www.w3.org/TR/activitypub/
+  - type: GettingStarted
+    url: https://activitypub.rocks/
+  - type: Authentication
+    url: https://www.w3.org/TR/activitypub/#authorization
+  - type: Security
+    url: https://www.w3.org/TR/activitypub/#security-considerations
+  - type: UseCases
+    url: https://www.w3.org/TR/activitypub/#overview
+  - type: GitHubOrganization
+    url: https://github.com/w3c/activitypub
+  - type: GitHubRepository
+    url: https://github.com/w3c/activitypub
+  - type: Forum
+    url: https://socialhub.activitypub.rocks/
+  - type: Changelog
+    url: https://www.w3.org/TR/activitypub/#change-log
+  - type: Vocabulary
+    url: https://www.w3.org/TR/activitystreams-vocabulary/
+  - type: JSONSchema
+    url: https://www.w3.org/TR/activitystreams-core/
+  - type: RateLimits
+    url: rate-limits/activitypub-rate-limits.yml
+  - type: Plans
+    url: plans/activitypub-plans.yml
+  - type: FinOps
+    url: finops/activitypub-finops.yml
