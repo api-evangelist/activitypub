@@ -184,9 +184,9 @@ common:
     url: https://github.com/w3c/activitypub
   - type: GitHubRepository
     url: https://github.com/w3c/activitypub
-  - type: Forum
+  - type: Forums
     url: https://socialhub.activitypub.rocks/
-  - type: Changelog
+  - type: ChangeLog
     url: https://www.w3.org/TR/activitypub/#change-log
   - type: Vocabulary
     url: https://www.w3.org/TR/activitystreams-vocabulary/
