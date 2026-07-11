@@ -1,0 +1,24 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/activitypub-openapi.yml
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - header
+schemes:
+- name: BearerAuth
+  type: http
+  scheme: bearer
+  description: OAuth 2.0 bearer token for client-to-server authentication
+  sources:
+  - openapi/activitypub-openapi.yml
+- name: HTTPSignature
+  type: apiKey
+  in: header
+  parameter: Signature
+  description: HTTP Signatures (draft-cavage-http-signatures) for server-to-server authentication.
+    The Signature header contains keyId, algorithm, headers, and signature fields.
+  sources:
+  - openapi/activitypub-openapi.yml

@@ -166,6 +166,10 @@ maintainers:
     email: info@apis.io
 specificationVersion: '0.19'
 common:
+  - type: DomainSecurity
+    url: security/activitypub-domain-security.yml
+  - type: Authentication
+    url: authentication/activitypub-authentication.yml
   - type: Website
     url: https://activitypub.rocks/
   - type: Documentation
