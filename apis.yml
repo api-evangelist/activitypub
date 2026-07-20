@@ -140,6 +140,7 @@ apis:
       supported protocols, usage statistics, and open registration status, enabling clients
       and crawlers to understand server capabilities without inspecting individual actors.
 name: ActivityPub
+kind: topic
 tags:
   - Open Standard
   - Social Networks
