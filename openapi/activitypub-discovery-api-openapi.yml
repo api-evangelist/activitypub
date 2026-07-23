@@ -1,0 +1,236 @@
+openapi: 3.1.0
+info:
+  title: ActivityPub Actors Discovery API
+  version: 1.0.0
+  description: ActivityPub is a W3C Recommendation (https://www.w3.org/TR/activitypub/) that defines a decentralized social networking protocol. It specifies both a client-to-server API for creating and managing social content and a server-to-server federation protocol for distributing activities across instances. Built on ActivityStreams 2.0 and JSON-LD, ActivityPub powers the Fediverse — Mastodon, Pixelfed, PeerTube, and hundreds of other platforms — enabling interoperable social networking across independently operated servers.
+  contact:
+    name: W3C Social Web Working Group
+    url: https://www.w3.org/wiki/Socialwg
+  license:
+    name: W3C Document License
+    url: https://www.w3.org/Consortium/Legal/2015/doc-license
+  externalDocs:
+    description: ActivityPub W3C Recommendation
+    url: https://www.w3.org/TR/activitypub/
+servers:
+- url: https://{domain}
+  description: ActivityPub server (replace with your instance domain)
+  variables:
+    domain:
+      default: social.example
+      description: The domain of the ActivityPub server
+tags:
+- name: Discovery
+  description: WebFinger and NodeInfo discovery endpoints
+paths:
+  /.well-known/webfinger:
+    get:
+      operationId: getWebFinger
+      summary: Discover actor via WebFinger
+      description: WebFinger (RFC 7033) endpoint for cross-instance actor discovery. Returns a JSON Resource Descriptor (JRD) linking to the actor's canonical ActivityPub profile URL. Enables user@domain addressing across the Fediverse.
+      tags:
+      - Discovery
+      parameters:
+      - name: resource
+        in: query
+        required: true
+        description: The resource to look up, e.g. acct:user@example.com
+        schema:
+          type: string
+          example: acct:alyssa@social.example
+      - name: rel
+        in: query
+        required: false
+        description: Filter links by relation type
+        schema:
+          type: string
+          example: self
+      responses:
+        '200':
+          description: JSON Resource Descriptor for the requested resource
+          content:
+            application/jrd+json:
+              schema:
+                $ref: '#/components/schemas/WebFingerResponse'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /.well-known/nodeinfo:
+    get:
+      operationId: getNodeInfoLinks
+      summary: Get NodeInfo link document
+      description: Returns a document listing available NodeInfo endpoints for this server, following the NodeInfo schema (https://nodeinfo.diaspora.software/). Used to discover server capability metadata.
+      tags:
+      - Discovery
+      responses:
+        '200':
+          description: NodeInfo link document
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeInfoLinks'
+        '404':
+          description: NodeInfo not supported
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /nodeinfo/{version}:
+    get:
+      operationId: getNodeInfo
+      summary: Get NodeInfo server metadata
+      description: Returns server capability metadata including software name, version, supported protocols, usage statistics, and open registration status.
+      tags:
+      - Discovery
+      parameters:
+      - name: version
+        in: path
+        required: true
+        description: NodeInfo schema version (e.g. 2.0, 2.1)
+        schema:
+          type: string
+          example: '2.0'
+      responses:
+        '200':
+          description: NodeInfo server metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeInfo'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    WebFingerResponse:
+      type: object
+      description: JSON Resource Descriptor (JRD) per RFC 7033
+      required:
+      - subject
+      properties:
+        subject:
+          type: string
+          description: The queried resource
+          example: acct:alyssa@social.example
+        aliases:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Alternative URIs for the subject
+        properties:
+          type: object
+          additionalProperties:
+            type: string
+          description: Properties of the subject resource
+        links:
+          type: array
+          items:
+            type: object
+            required:
+            - rel
+            properties:
+              rel:
+                type: string
+                description: Link relation type
+                example: self
+              type:
+                type: string
+                description: Media type of the target resource
+                example: application/activity+json
+              href:
+                type: string
+                format: uri
+                description: IRI of the linked resource
+                example: https://social.example/users/alyssa
+              titles:
+                type: object
+                additionalProperties:
+                  type: string
+              properties:
+                type: object
+                additionalProperties:
+                  type: string
+    NodeInfo:
+      type: object
+      description: NodeInfo server capability metadata
+      properties:
+        version:
+          type: string
+          example: '2.0'
+        software:
+          type: object
+          properties:
+            name:
+              type: string
+              example: mastodon
+            version:
+              type: string
+              example: 4.2.0
+        protocols:
+          type: array
+          items:
+            type: string
+          example:
+          - activitypub
+        usage:
+          type: object
+          properties:
+            users:
+              type: object
+              properties:
+                total:
+                  type: integer
+                activeMonth:
+                  type: integer
+                activeHalfyear:
+                  type: integer
+            localPosts:
+              type: integer
+            localComments:
+              type: integer
+        openRegistrations:
+          type: boolean
+          description: Whether the server accepts new user registrations
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error code or short description
+        error_description:
+          type: string
+          description: Human-readable error detail
+    NodeInfoLinks:
+      type: object
+      description: NodeInfo link document at /.well-known/nodeinfo
+      properties:
+        links:
+          type: array
+          items:
+            type: object
+            properties:
+              rel:
+                type: string
+                format: uri
+                example: http://nodeinfo.diaspora.software/ns/schema/2.0
+              href:
+                type: string
+                format: uri
+                example: https://social.example/nodeinfo/2.0
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: OAuth 2.0 bearer token for client-to-server authentication
+    HTTPSignature:
+      type: apiKey
+      in: header
+      name: Signature
+      description: HTTP Signatures (draft-cavage-http-signatures) for server-to-server authentication. The Signature header contains keyId, algorithm, headers, and signature fields.
