@@ -1,0 +1,22 @@
+{
+  "provider": "activitypub",
+  "sources": [
+    "activitypub-actors-api-openapi.yml",
+    "activitypub-collections-api-openapi.yml",
+    "activitypub-discovery-api-openapi.yml",
+    "activitypub-inbox-api-openapi.yml",
+    "activitypub-outbox-api-openapi.yml"
+  ],
+  "outputs": [
+    "activitypub-actors-api-openapi.yml",
+    "activitypub-collections-api-openapi.yml",
+    "activitypub-discovery-api-openapi.yml",
+    "activitypub-inbox-api-openapi.yml",
+    "activitypub-outbox-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
