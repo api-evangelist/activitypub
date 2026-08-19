@@ -1,0 +1,93 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ActivityPub Actors Collections API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Collections",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get actor followers collection",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{domain}/users/:username/followers",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "The local username of the actor"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page token or number for pagination"
+              }
+            ]
+          },
+          "docs": "Returns the collection of actors that follow this actor, as a Collection or OrderedCollection. Visibility may be filtered based on the requester's authentication level and the actor's privacy settings."
+        },
+        {
+          "info": {
+            "name": "Get actor following collection",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{domain}/users/:username/following",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "The local username of the actor"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page token or number for pagination"
+              }
+            ]
+          },
+          "docs": "Returns the collection of actors that this actor follows, as a Collection or OrderedCollection. Visibility may be filtered based on the requester's authentication level and the actor's privacy settings."
+        },
+        {
+          "info": {
+            "name": "Get actor liked collection",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{domain}/users/:username/liked",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "The local username of the actor"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page token or number for pagination"
+              }
+            ]
+          },
+          "docs": "Returns the optional OrderedCollection of objects the actor has liked. Posting a Like activity to the actor's outbox adds the referenced object to this collection. Supports pagination through the standard ActivityStreams 2.0 collection paging mechanism."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

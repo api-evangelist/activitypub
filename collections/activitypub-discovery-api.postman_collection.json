@@ -1,0 +1,480 @@
+{
+  "item": [
+    {
+      "id": "28b25f77-6d30-46b6-90f8-d1a838533bc1",
+      "name": "Discovery",
+      "description": {
+        "content": "WebFinger and NodeInfo discovery endpoints",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "685fc80c-bfd9-4f3b-8164-0f3f6382d8dc",
+          "name": "Discover actor via WebFinger",
+          "request": {
+            "name": "Discover actor via WebFinger",
+            "description": {
+              "content": "WebFinger (RFC 7033) endpoint for cross-instance actor discovery. Returns a JSON Resource Descriptor (JRD) linking to the actor's canonical ActivityPub profile URL. Enables user@domain addressing across the Fediverse.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ".well-known",
+                "webfinger"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "resource",
+                  "value": "<string>",
+                  "description": "(Required) The resource to look up, e.g. acct:user@example.com"
+                },
+                {
+                  "disabled": false,
+                  "key": "rel",
+                  "value": "<string>",
+                  "description": "Filter links by relation type"
+                }
+              ],
+              "variable": [
+                {
+                  "description": "The domain of the ActivityPub server",
+                  "type": "any",
+                  "value": "{{domain}}",
+                  "key": "domain"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/jrd+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "edb2a31a-74be-49ee-a4d8-3fc38627b509",
+              "name": "JSON Resource Descriptor for the requested resource",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ".well-known",
+                    "webfinger"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "resource",
+                      "value": "acct:alyssa@social.example"
+                    },
+                    {
+                      "key": "rel",
+                      "value": "self"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "The domain of the ActivityPub server",
+                      "type": "any",
+                      "value": "{{domain}}",
+                      "key": "domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/jrd+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/jrd+json"
+                }
+              ],
+              "body": "{\n  \"subject\": \"acct:alyssa@social.example\",\n  \"aliases\": [\n    \"http://zWZnYYwKCBOvTaGAashpNqPphc.kgzts+cbmLhFHtyECwelLA,xI5uYsK6HTYwRlbJGPYE2swsHM,zf9vjSRMyeAWZBbI9JAajONt+HpYrrXZUFwjmqSF\",\n    \"http://ynqLzGA.sfgubQ6dOVPG6sqpsx2WmkTu,-i5OBTWKZ45Bcp8k119xgaCrn6aojWTC6wimfGQzr7oObNe-FNiKrdSp9\"\n  ],\n  \"properties\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\",\n    \"key_2\": \"string\"\n  },\n  \"links\": [\n    {\n      \"rel\": \"self\",\n      \"type\": \"application/activity+json\",\n      \"href\": \"https://social.example/users/alyssa\",\n      \"titles\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\"\n      },\n      \"properties\": {\n        \"key_0\": \"string\"\n      }\n    },\n    {\n      \"rel\": \"self\",\n      \"type\": \"application/activity+json\",\n      \"href\": \"https://social.example/users/alyssa\",\n      \"titles\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\"\n      },\n      \"properties\": {\n        \"key_0\": \"string\",\n        \"key_1\": \"string\",\n        \"key_2\": \"string\",\n        \"key_3\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e69106bf-dd73-4302-9650-1215ca690f36",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ".well-known",
+                    "webfinger"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "resource",
+                      "value": "acct:alyssa@social.example"
+                    },
+                    {
+                      "key": "rel",
+                      "value": "self"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "The domain of the ActivityPub server",
+                      "type": "any",
+                      "value": "{{domain}}",
+                      "key": "domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"error_description\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a88f1b79-f263-4073-91e2-656d85efdb87",
+          "name": "Get NodeInfo link document",
+          "request": {
+            "name": "Get NodeInfo link document",
+            "description": {
+              "content": "Returns a document listing available NodeInfo endpoints for this server, following the NodeInfo schema (https://nodeinfo.diaspora.software/). Used to discover server capability metadata.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ".well-known",
+                "nodeinfo"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The domain of the ActivityPub server",
+                  "type": "any",
+                  "value": "{{domain}}",
+                  "key": "domain"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1af24c74-bfed-4712-9da0-babdce915dac",
+              "name": "NodeInfo link document",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ".well-known",
+                    "nodeinfo"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The domain of the ActivityPub server",
+                      "type": "any",
+                      "value": "{{domain}}",
+                      "key": "domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"links\": [\n    {\n      \"rel\": \"http://nodeinfo.diaspora.software/ns/schema/2.0\",\n      \"href\": \"https://social.example/nodeinfo/2.0\"\n    },\n    {\n      \"rel\": \"http://nodeinfo.diaspora.software/ns/schema/2.0\",\n      \"href\": \"https://social.example/nodeinfo/2.0\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "65fcb11e-7182-4c68-8d84-11f5c9bb6083",
+              "name": "NodeInfo not supported",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ".well-known",
+                    "nodeinfo"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The domain of the ActivityPub server",
+                      "type": "any",
+                      "value": "{{domain}}",
+                      "key": "domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"error_description\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7a2c189c-4676-438a-838e-a91a0a06be69",
+          "name": "Get NodeInfo server metadata",
+          "request": {
+            "name": "Get NodeInfo server metadata",
+            "description": {
+              "content": "Returns server capability metadata including software name, version, supported protocols, usage statistics, and open registration status.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "nodeinfo",
+                ":version"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "version",
+                  "description": "(Required) NodeInfo schema version (e.g. 2.0, 2.1)"
+                },
+                {
+                  "description": "The domain of the ActivityPub server",
+                  "type": "any",
+                  "value": "{{domain}}",
+                  "key": "domain"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "dc83f8a7-8256-44d8-bdaa-67216e86f7a2",
+              "name": "NodeInfo server metadata",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "nodeinfo",
+                    ":version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "version",
+                      "description": "(Required) NodeInfo schema version (e.g. 2.0, 2.1)"
+                    },
+                    {
+                      "description": "The domain of the ActivityPub server",
+                      "type": "any",
+                      "value": "{{domain}}",
+                      "key": "domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"version\": \"2.0\",\n  \"software\": {\n    \"name\": \"mastodon\",\n    \"version\": \"4.2.0\"\n  },\n  \"protocols\": [\n    \"activitypub\"\n  ],\n  \"usage\": {\n    \"users\": {\n      \"total\": 3930,\n      \"activeMonth\": 3366,\n      \"activeHalfyear\": 2626\n    },\n    \"localPosts\": 8529,\n    \"localComments\": 1289\n  },\n  \"openRegistrations\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "da670c2f-2b9b-45a7-990b-8d9593261698",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "nodeinfo",
+                    ":version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "version",
+                      "description": "(Required) NodeInfo schema version (e.g. 2.0, 2.1)"
+                    },
+                    {
+                      "description": "The domain of the ActivityPub server",
+                      "type": "any",
+                      "value": "{{domain}}",
+                      "key": "domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"error_description\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The domain of the ActivityPub server",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "social.example",
+      "key": "domain"
+    },
+    {
+      "type": "string",
+      "value": "https://{{domain}}",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "d24864ed-846b-468f-9085-7b8f9a278448",
+    "name": "ActivityPub Actors Discovery API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ActivityPub is a W3C Recommendation (https://www.w3.org/TR/activitypub/) that defines a decentralized social networking protocol. It specifies both a client-to-server API for creating and managing social content and a server-to-server federation protocol for distributing activities across instances. Built on ActivityStreams 2.0 and JSON-LD, ActivityPub powers the Fediverse — Mastodon, Pixelfed, PeerTube, and hundreds of other platforms — enabling interoperable social networking across independently operated servers.\n\nContact Support:\n Name: W3C Social Web Working Group",
+      "type": "text/plain"
+    }
+  }
+}

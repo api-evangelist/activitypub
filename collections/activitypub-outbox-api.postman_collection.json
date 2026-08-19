@@ -1,0 +1,486 @@
+{
+  "item": [
+    {
+      "id": "128b3589-1476-4236-8d47-64f4a70a330d",
+      "name": "Outbox",
+      "description": {
+        "content": "Publish activities from an actor and read their history",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a7cd9593-1fb6-4da6-bc6b-e62465b7d7c0",
+          "name": "Read actor outbox",
+          "request": {
+            "name": "Read actor outbox",
+            "description": {
+              "content": "Returns the actor's outbox as an OrderedCollection of published activities. Publicly readable (may be filtered by authentication level). Supports pagination via first, last, next, and prev collection page links.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "users",
+                ":username",
+                "outbox"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<string>",
+                  "description": "Page token or number for pagination"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "username",
+                  "description": "(Required) The local username of the actor"
+                },
+                {
+                  "description": "The domain of the ActivityPub server",
+                  "type": "any",
+                  "value": "{{domain}}",
+                  "key": "domain"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/activity+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "78817280-9b9a-4197-b987-155675740329",
+              "name": "Outbox as OrderedCollection",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    ":username",
+                    "outbox"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "username",
+                      "description": "(Required) The local username of the actor"
+                    },
+                    {
+                      "description": "The domain of the ActivityPub server",
+                      "type": "any",
+                      "value": "{{domain}}",
+                      "key": "domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/activity+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/activity+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"OrderedCollection\",\n  \"id\": \"https://raab.nomyLrhNpk-cWoY9.IvJrFDtHsiBkpkJi5ORKNP8ubacv7df\",\n  \"@context\": \"https://www.w3.org/ns/activitystreams\",\n  \"totalItems\": 15,\n  \"current\": \"https://KgCYYCSuKMZxjuStDnmw.tlxvb6yq-+baVGr4RRn3rhI+FOUgKv-I6nuPk.jnfLQ4qlz75NZPGX.l4zqC3j\",\n  \"first\": \"https://XgCDMZcRkaQsVHOAmSjntiBU.tuoptgazClCEgIMEiQGG\",\n  \"last\": \"https://VJkXnKdHQVBZRdGpqztsVISsuvuP.ziK6VRZzl2nEZZ7E.wqV5BitTUUyGTX,XZTYfJhCSOzQNr1-pzCI\",\n  \"orderedItems\": [\n    \"https://GEORrYbXJA.loe-bvXXzqQgKOwj7wjMREU,0asbVUODQ5Xo\",\n    \"https://WShnwLDpYNuaURwEHHX.geaHORoEs44op-e2ndtxEUaFI7Q..fofAKEVLALomvM8Erh48aauMKTdFJ11sYm+IyJ584\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1fcefc4d-b12d-4f1c-8e66-1388a6bf22a5",
+              "name": "Actor not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    ":username",
+                    "outbox"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "username",
+                      "description": "(Required) The local username of the actor"
+                    },
+                    {
+                      "description": "The domain of the ActivityPub server",
+                      "type": "any",
+                      "value": "{{domain}}",
+                      "key": "domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"error_description\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6ca2909c-d0c1-41b1-bec3-23b4ccd50217",
+          "name": "Publish activity (client-to-server)",
+          "request": {
+            "name": "Publish activity (client-to-server)",
+            "description": {
+              "content": "Used by authenticated clients to publish activities on behalf of an actor. The server MUST assign an id to the activity and add it to the actor's outbox. The server then federates the activity to the appropriate recipients based on addressing fields (to, cc, bcc, audience). Returns 201 Created with a Location header pointing to the new activity's IRI.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "users",
+                ":username",
+                "outbox"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "username",
+                  "description": "(Required) The local username of the actor"
+                },
+                {
+                  "description": "The domain of the ActivityPub server",
+                  "type": "any",
+                  "value": "{{domain}}",
+                  "key": "domain"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/activity+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"@context\": \"<string>\",\n  \"type\": \"<string>\",\n  \"actor\": \"<uri>\",\n  \"id\": \"<uri>\",\n  \"object\": \"<uri>\",\n  \"target\": \"<uri>\",\n  \"to\": \"<uri>\",\n  \"cc\": \"<uri>\",\n  \"bto\": \"<uri>\",\n  \"bcc\": \"<uri>\",\n  \"published\": \"<dateTime>\",\n  \"summary\": \"<string>\",\n  \"result\": \"<uri>\",\n  \"origin\": \"<uri>\",\n  \"instrument\": \"<uri>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d85d07cb-89db-460d-b71f-d294bd2f72c5",
+              "name": "Activity published successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    ":username",
+                    "outbox"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "username",
+                      "description": "(Required) The local username of the actor"
+                    },
+                    {
+                      "description": "The domain of the ActivityPub server",
+                      "type": "any",
+                      "value": "{{domain}}",
+                      "key": "domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"@context\": \"https://www.w3.org/ns/activitystreams\",\n  \"type\": \"Create\",\n  \"actor\": \"<uri>\",\n  \"id\": \"https://social.example/users/alyssa/activities/12345\",\n  \"object\": \"<uri>\",\n  \"target\": \"<uri>\",\n  \"to\": \"<uri>\",\n  \"cc\": \"<uri>\",\n  \"bto\": \"<uri>\",\n  \"bcc\": \"<uri>\",\n  \"published\": \"<dateTime>\",\n  \"summary\": \"<string>\",\n  \"result\": \"<uri>\",\n  \"origin\": \"<uri>\",\n  \"instrument\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "IRI of the newly created activity",
+                  "key": "Location",
+                  "value": "https://iSm.oeqnk7YIX1rdF,dZeoEezJ9rC8sfHhcO+0"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c3c36727-b43b-421a-bfdc-61c86a2fa06d",
+              "name": "Bad request or invalid activity",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    ":username",
+                    "outbox"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "username",
+                      "description": "(Required) The local username of the actor"
+                    },
+                    {
+                      "description": "The domain of the ActivityPub server",
+                      "type": "any",
+                      "value": "{{domain}}",
+                      "key": "domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"@context\": \"https://www.w3.org/ns/activitystreams\",\n  \"type\": \"Create\",\n  \"actor\": \"<uri>\",\n  \"id\": \"https://social.example/users/alyssa/activities/12345\",\n  \"object\": \"<uri>\",\n  \"target\": \"<uri>\",\n  \"to\": \"<uri>\",\n  \"cc\": \"<uri>\",\n  \"bto\": \"<uri>\",\n  \"bcc\": \"<uri>\",\n  \"published\": \"<dateTime>\",\n  \"summary\": \"<string>\",\n  \"result\": \"<uri>\",\n  \"origin\": \"<uri>\",\n  \"instrument\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"error_description\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "36ae89a9-334b-48ab-a08f-cbbaca84b063",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    ":username",
+                    "outbox"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "username",
+                      "description": "(Required) The local username of the actor"
+                    },
+                    {
+                      "description": "The domain of the ActivityPub server",
+                      "type": "any",
+                      "value": "{{domain}}",
+                      "key": "domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"@context\": \"https://www.w3.org/ns/activitystreams\",\n  \"type\": \"Create\",\n  \"actor\": \"<uri>\",\n  \"id\": \"https://social.example/users/alyssa/activities/12345\",\n  \"object\": \"<uri>\",\n  \"target\": \"<uri>\",\n  \"to\": \"<uri>\",\n  \"cc\": \"<uri>\",\n  \"bto\": \"<uri>\",\n  \"bcc\": \"<uri>\",\n  \"published\": \"<dateTime>\",\n  \"summary\": \"<string>\",\n  \"result\": \"<uri>\",\n  \"origin\": \"<uri>\",\n  \"instrument\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"error_description\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The domain of the ActivityPub server",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "social.example",
+      "key": "domain"
+    },
+    {
+      "type": "string",
+      "value": "https://{{domain}}",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "3f8cb445-9472-41e8-ad97-1d6a37b41d65",
+    "name": "ActivityPub Actors Outbox API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ActivityPub is a W3C Recommendation (https://www.w3.org/TR/activitypub/) that defines a decentralized social networking protocol. It specifies both a client-to-server API for creating and managing social content and a server-to-server federation protocol for distributing activities across instances. Built on ActivityStreams 2.0 and JSON-LD, ActivityPub powers the Fediverse — Mastodon, Pixelfed, PeerTube, and hundreds of other platforms — enabling interoperable social networking across independently operated servers.\n\nContact Support:\n Name: W3C Social Web Working Group",
+      "type": "text/plain"
+    }
+  }
+}

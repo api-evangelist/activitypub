@@ -1,0 +1,70 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ActivityPub Actors Outbox API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Outbox",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Read actor outbox",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{domain}/users/:username/outbox",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "The local username of the actor"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page token or number for pagination"
+              }
+            ]
+          },
+          "docs": "Returns the actor's outbox as an OrderedCollection of published activities. Publicly readable (may be filtered by authentication level). Supports pagination via first, last, next, and prev collection page links."
+        },
+        {
+          "info": {
+            "name": "Publish activity (client-to-server)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{domain}/users/:username/outbox",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "The local username of the actor"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Used by authenticated clients to publish activities on behalf of an actor. The server MUST assign an id to the activity and add it to the actor's outbox. The server then federates the activity to the appropriate recipients based on addressing fields (to, cc, bcc, audience). Returns 201 Created with a Location header pointing to the new activity's IRI."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,73 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ActivityPub Actors Discovery API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Discovery",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Discover actor via WebFinger",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{domain}/.well-known/webfinger",
+            "params": [
+              {
+                "name": "resource",
+                "value": "",
+                "type": "query",
+                "description": "The resource to look up, e.g. acct:user@example.com"
+              },
+              {
+                "name": "rel",
+                "value": "",
+                "type": "query",
+                "description": "Filter links by relation type"
+              }
+            ]
+          },
+          "docs": "WebFinger (RFC 7033) endpoint for cross-instance actor discovery. Returns a JSON Resource Descriptor (JRD) linking to the actor's canonical ActivityPub profile URL. Enables user@domain addressing across the Fediverse."
+        },
+        {
+          "info": {
+            "name": "Get NodeInfo link document",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{domain}/.well-known/nodeinfo"
+          },
+          "docs": "Returns a document listing available NodeInfo endpoints for this server, following the NodeInfo schema (https://nodeinfo.diaspora.software/). Used to discover server capability metadata."
+        },
+        {
+          "info": {
+            "name": "Get NodeInfo server metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{domain}/nodeinfo/:version",
+            "params": [
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "NodeInfo schema version (e.g. 2.0, 2.1)"
+              }
+            ]
+          },
+          "docs": "Returns server capability metadata including software name, version, supported protocols, usage statistics, and open registration status."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

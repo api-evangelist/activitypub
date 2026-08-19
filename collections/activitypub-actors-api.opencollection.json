@@ -1,0 +1,37 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ActivityPub Actors API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Actors",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve actor profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{domain}/users/:username",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "The local username of the actor"
+              }
+            ]
+          },
+          "docs": "Retrieves the ActivityPub actor object for the given username. The response is a JSON-LD document conforming to ActivityStreams 2.0, containing the actor's IRI, type, and required endpoint properties (inbox, outbox, followers, following). Servers MUST return the actor object when a valid Accept header is sent."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

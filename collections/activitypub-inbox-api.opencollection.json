@@ -1,0 +1,76 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ActivityPub Actors Inbox API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Inbox",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Read actor inbox",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{domain}/users/:username/inbox",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "The local username of the actor"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page token or number for pagination"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns the actor's inbox as an OrderedCollection of received activities. Requires authentication. The server SHOULD filter the inbox contents based on the authenticated actor's access rights."
+        },
+        {
+          "info": {
+            "name": "Deliver activity to actor inbox (server-to-server)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{domain}/users/:username/inbox",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "path",
+                "description": "The local username of the actor"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Signature",
+              "value": "{{Signature}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Used by remote servers to deliver activities to this actor's inbox as part of server-to-server federation. The posting server MUST authenticate the request using HTTP Signatures. The receiving server MUST validate the signature and deduplicate activities."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

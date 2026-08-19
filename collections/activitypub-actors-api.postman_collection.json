@@ -1,0 +1,241 @@
+{
+  "item": [
+    {
+      "id": "5ed87918-f2c6-4e2f-b7da-84cec6a83522",
+      "name": "Actors",
+      "description": {
+        "content": "Retrieve actor profile objects",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6b7e32ee-7158-407b-9911-b6ec3a0a424b",
+          "name": "Retrieve actor profile",
+          "request": {
+            "name": "Retrieve actor profile",
+            "description": {
+              "content": "Retrieves the ActivityPub actor object for the given username. The response is a JSON-LD document conforming to ActivityStreams 2.0, containing the actor's IRI, type, and required endpoint properties (inbox, outbox, followers, following). Servers MUST return the actor object when a valid Accept header is sent.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "users",
+                ":username"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "username",
+                  "description": "(Required) The local username of the actor"
+                },
+                {
+                  "description": "The domain of the ActivityPub server",
+                  "type": "any",
+                  "value": "{{domain}}",
+                  "key": "domain"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/activity+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ceb470ef-fb10-4271-9dbd-e3c435733fc7",
+              "name": "Actor object as JSON-LD",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    ":username"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "username",
+                      "description": "(Required) The local username of the actor"
+                    },
+                    {
+                      "description": "The domain of the ActivityPub server",
+                      "type": "any",
+                      "value": "{{domain}}",
+                      "key": "domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/activity+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/activity+json"
+                }
+              ],
+              "body": "{\n  \"@context\": \"https://www.w3.org/ns/activitystreams\",\n  \"id\": \"https://social.example/users/alyssa\",\n  \"type\": \"Person\",\n  \"inbox\": \"https://social.example/users/alyssa/inbox\",\n  \"outbox\": \"https://social.example/users/alyssa/outbox\",\n  \"name\": \"Alyssa P. Hacker\",\n  \"preferredUsername\": \"alyssa\",\n  \"summary\": \"Lisp enthusiast and hacker extraordinaire\",\n  \"url\": \"https://social.example/@alyssa\",\n  \"followers\": \"https://social.example/users/alyssa/followers\",\n  \"following\": \"https://social.example/users/alyssa/following\",\n  \"liked\": \"https://social.example/users/alyssa/liked\",\n  \"publicKey\": {\n    \"id\": \"https://social.example/users/alyssa#main-key\",\n    \"owner\": \"https://social.example/users/alyssa\",\n    \"publicKeyPem\": \"string\"\n  },\n  \"endpoints\": {\n    \"sharedInbox\": \"https://social.example/inbox\",\n    \"oauthAuthorizationEndpoint\": \"http://ayqlkgfwXwUTfF.xyi30vMWJSHmFOFiX5OvSUOpAQ,euuDa.IUG.aN2nDhUflyoy2bFXCKnD8JfYLW,zUs--IwESVvlL6f+gP\",\n    \"oauthTokenEndpoint\": \"https://fQBwgpgKeAKS.bjzQRUNJpw24dh+FhDr5W1vE+njO4eUOyNqC8TLLDChBGmoQZhE,.Sje2H\",\n    \"proxyUrl\": \"http://bkJUNtQKRGSaxEUmW.liIPj\"\n  },\n  \"icon\": {\n    \"type\": \"Image\",\n    \"url\": \"http://vPMmvQRWZedEesGwSrOohsIILTLVZsI.xfkqL-hmJ+oQk8,W2H76whSi+QYvMHqUlJ3kDtCycIAphjvPn2Bjj2SRqTj5fYb5yC+,\",\n    \"mediaType\": \"image/jpeg\",\n    \"width\": 3735,\n    \"height\": 2248\n  },\n  \"image\": {\n    \"type\": \"Image\",\n    \"url\": \"http://gDVjFPZVINWBuyhKIRZrDagDAmGUgfzt.disMCzUtOIBZTGKKAdM7dfbzWx0ImItlWKMEKnVlCbO.puZABj9dUd\",\n    \"mediaType\": \"image/jpeg\",\n    \"width\": 6013,\n    \"height\": 7785\n  },\n  \"published\": \"1947-08-20T15:45:27.979Z\",\n  \"updated\": \"1956-02-03T08:57:46.741Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f27f6f08-5440-45a5-b5b9-a81593c641a9",
+              "name": "Access denied (or 404 for privacy)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    ":username"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "username",
+                      "description": "(Required) The local username of the actor"
+                    },
+                    {
+                      "description": "The domain of the ActivityPub server",
+                      "type": "any",
+                      "value": "{{domain}}",
+                      "key": "domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"error_description\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ee8bb846-2507-4220-8fdb-bcdcf9e3ae3d",
+              "name": "Actor not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    ":username"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "username",
+                      "description": "(Required) The local username of the actor"
+                    },
+                    {
+                      "description": "The domain of the ActivityPub server",
+                      "type": "any",
+                      "value": "{{domain}}",
+                      "key": "domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"error_description\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The domain of the ActivityPub server",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "social.example",
+      "key": "domain"
+    },
+    {
+      "type": "string",
+      "value": "https://{{domain}}",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "b96a3dac-1177-45ea-a0ec-1c4ced29a7a6",
+    "name": "ActivityPub Actors API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ActivityPub is a W3C Recommendation (https://www.w3.org/TR/activitypub/) that defines a decentralized social networking protocol. It specifies both a client-to-server API for creating and managing social content and a server-to-server federation protocol for distributing activities across instances. Built on ActivityStreams 2.0 and JSON-LD, ActivityPub powers the Fediverse — Mastodon, Pixelfed, PeerTube, and hundreds of other platforms — enabling interoperable social networking across independently operated servers.\n\nContact Support:\n Name: W3C Social Web Working Group",
+      "type": "text/plain"
+    }
+  }
+}

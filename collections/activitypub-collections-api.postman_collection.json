@@ -1,0 +1,551 @@
+{
+  "item": [
+    {
+      "id": "7b37448f-4e3f-4067-9a3b-3d80347a78dc",
+      "name": "Collections",
+      "description": {
+        "content": "Followers, following, and liked collections",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1fa00c67-4884-4f66-9639-b825ca48966d",
+          "name": "Get actor followers collection",
+          "request": {
+            "name": "Get actor followers collection",
+            "description": {
+              "content": "Returns the collection of actors that follow this actor, as a Collection or OrderedCollection. Visibility may be filtered based on the requester's authentication level and the actor's privacy settings.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "users",
+                ":username",
+                "followers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<string>",
+                  "description": "Page token or number for pagination"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "username",
+                  "description": "(Required) The local username of the actor"
+                },
+                {
+                  "description": "The domain of the ActivityPub server",
+                  "type": "any",
+                  "value": "{{domain}}",
+                  "key": "domain"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/activity+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "173b559a-366d-4d27-b84d-0573f40efeb4",
+              "name": "Followers collection",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    ":username",
+                    "followers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "username",
+                      "description": "(Required) The local username of the actor"
+                    },
+                    {
+                      "description": "The domain of the ActivityPub server",
+                      "type": "any",
+                      "value": "{{domain}}",
+                      "key": "domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/activity+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/activity+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"Collection\",\n  \"id\": \"https://Tnsy.exgauJMpA-k9SJ3iPWCQ,tpEWboEGbtT-35Tz9JFuRiv+ocQ5AdWuOyV,8iRntoajr12Eq\",\n  \"@context\": \"https://www.w3.org/ns/activitystreams\",\n  \"totalItems\": 42,\n  \"current\": \"http://V.acZW.pmkyCws-c--tYH9uTrS..X9yp.BUzRNPiB0bF\",\n  \"first\": \"http://qsELxmjfxuMMfNJXKXleyyOJbptIVf.gbZTSJqIJ1elu7pF6.Kl+xDh5qmVMxTYjuMwIk6\",\n  \"last\": \"https://dBQjRxfVKRPnseguabTFlarM.dlfnhseeo+6-BK2,BgUfAckuwi+x43T+HQrffVXXUB.0R62cbpF+ZgkxUt0BXkuSCn,ztu9q\",\n  \"items\": [\n    \"https://UZZWRbZLdcnHdxicYBfYzEQVsmfGgrdck.creqzsIUbmhA,+z33NGks05cCudWoBsWg2mlFqKWSI1yQoYyu2uYJcJH4xGn\",\n    \"http://eaEqKmoInq.pmoe+.PJ9aehZBYMip.7qmt.iek1aWozkHrxllSFrs.THgRWA4ap6kvYi0ogx4UVEnNrA5dygA\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c365806a-55a6-49fb-898d-2097fa48f931",
+              "name": "Actor not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    ":username",
+                    "followers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "username",
+                      "description": "(Required) The local username of the actor"
+                    },
+                    {
+                      "description": "The domain of the ActivityPub server",
+                      "type": "any",
+                      "value": "{{domain}}",
+                      "key": "domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"error_description\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ba90b1e9-1c2d-4e40-9ccf-68c6b3bf7458",
+          "name": "Get actor following collection",
+          "request": {
+            "name": "Get actor following collection",
+            "description": {
+              "content": "Returns the collection of actors that this actor follows, as a Collection or OrderedCollection. Visibility may be filtered based on the requester's authentication level and the actor's privacy settings.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "users",
+                ":username",
+                "following"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<string>",
+                  "description": "Page token or number for pagination"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "username",
+                  "description": "(Required) The local username of the actor"
+                },
+                {
+                  "description": "The domain of the ActivityPub server",
+                  "type": "any",
+                  "value": "{{domain}}",
+                  "key": "domain"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/activity+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6936a7fa-da0e-4531-b6f4-eb207a71e4e0",
+              "name": "Following collection",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    ":username",
+                    "following"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "username",
+                      "description": "(Required) The local username of the actor"
+                    },
+                    {
+                      "description": "The domain of the ActivityPub server",
+                      "type": "any",
+                      "value": "{{domain}}",
+                      "key": "domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/activity+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/activity+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"Collection\",\n  \"id\": \"https://Tnsy.exgauJMpA-k9SJ3iPWCQ,tpEWboEGbtT-35Tz9JFuRiv+ocQ5AdWuOyV,8iRntoajr12Eq\",\n  \"@context\": \"https://www.w3.org/ns/activitystreams\",\n  \"totalItems\": 42,\n  \"current\": \"http://V.acZW.pmkyCws-c--tYH9uTrS..X9yp.BUzRNPiB0bF\",\n  \"first\": \"http://qsELxmjfxuMMfNJXKXleyyOJbptIVf.gbZTSJqIJ1elu7pF6.Kl+xDh5qmVMxTYjuMwIk6\",\n  \"last\": \"https://dBQjRxfVKRPnseguabTFlarM.dlfnhseeo+6-BK2,BgUfAckuwi+x43T+HQrffVXXUB.0R62cbpF+ZgkxUt0BXkuSCn,ztu9q\",\n  \"items\": [\n    \"https://UZZWRbZLdcnHdxicYBfYzEQVsmfGgrdck.creqzsIUbmhA,+z33NGks05cCudWoBsWg2mlFqKWSI1yQoYyu2uYJcJH4xGn\",\n    \"http://eaEqKmoInq.pmoe+.PJ9aehZBYMip.7qmt.iek1aWozkHrxllSFrs.THgRWA4ap6kvYi0ogx4UVEnNrA5dygA\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9a6fd93b-8c54-4ec8-b282-16e8a465e802",
+              "name": "Actor not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    ":username",
+                    "following"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "username",
+                      "description": "(Required) The local username of the actor"
+                    },
+                    {
+                      "description": "The domain of the ActivityPub server",
+                      "type": "any",
+                      "value": "{{domain}}",
+                      "key": "domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"error_description\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "16c041ea-51c7-41ce-9019-c1c7148362ab",
+          "name": "Get actor liked collection",
+          "request": {
+            "name": "Get actor liked collection",
+            "description": {
+              "content": "Returns the optional OrderedCollection of objects the actor has liked. Posting a Like activity to the actor's outbox adds the referenced object to this collection. Supports pagination through the standard ActivityStreams 2.0 collection paging mechanism.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "users",
+                ":username",
+                "liked"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<string>",
+                  "description": "Page token or number for pagination"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "username",
+                  "description": "(Required) The local username of the actor"
+                },
+                {
+                  "description": "The domain of the ActivityPub server",
+                  "type": "any",
+                  "value": "{{domain}}",
+                  "key": "domain"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/activity+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3dc45a7d-450d-4bca-9372-19f343353104",
+              "name": "Liked collection",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    ":username",
+                    "liked"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "username",
+                      "description": "(Required) The local username of the actor"
+                    },
+                    {
+                      "description": "The domain of the ActivityPub server",
+                      "type": "any",
+                      "value": "{{domain}}",
+                      "key": "domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/activity+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/activity+json"
+                }
+              ],
+              "body": "{\n  \"type\": \"OrderedCollection\",\n  \"id\": \"http://UBiajdEFVjk.mpfhOS\",\n  \"@context\": \"https://www.w3.org/ns/activitystreams\",\n  \"totalItems\": 15,\n  \"current\": \"http://QfulyCzQYUWTqwufHyimlVQqogZlWOV.ihvq,XrBm.c8URRg8q+leJH+Rp6b41iIs4v\",\n  \"first\": \"http://xYDjwgqxaLAMjzTYpZKdXKSjLMc.alwevBfnMpHbBArYm3ifVeNpf1pdC7pLQ3qF-VG5.Nk9q\",\n  \"last\": \"https://cRlEWRfCwCBnteUXWkBhLsLCLtBxRHpr.slJ4wsiEKFEDNxxQl\",\n  \"orderedItems\": [\n    \"https://QYYMfSdneFhhdlsRs.hornsTuT373WMpOdNvHRtAvdjxuFwgGlY5bo-06px\",\n    \"http://tLBALhSECYORhZkLi.cnvxIS1Q1qwl8KRpYUt,-C7gNfCl8Qa5-fKnPd78Gamx1ZAr09eWyQed0NvQaUf10M+BhY\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e8ea5c91-6c3a-47dc-9683-00b2b71bfc82",
+              "name": "Actor not found or liked collection not exposed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "users",
+                    ":username",
+                    "liked"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "username",
+                      "description": "(Required) The local username of the actor"
+                    },
+                    {
+                      "description": "The domain of the ActivityPub server",
+                      "type": "any",
+                      "value": "{{domain}}",
+                      "key": "domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"error_description\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The domain of the ActivityPub server",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "social.example",
+      "key": "domain"
+    },
+    {
+      "type": "string",
+      "value": "https://{{domain}}",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "e19e1544-6c13-47fc-b25e-5ec62c66f372",
+    "name": "ActivityPub Actors Collections API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ActivityPub is a W3C Recommendation (https://www.w3.org/TR/activitypub/) that defines a decentralized social networking protocol. It specifies both a client-to-server API for creating and managing social content and a server-to-server federation protocol for distributing activities across instances. Built on ActivityStreams 2.0 and JSON-LD, ActivityPub powers the Fediverse — Mastodon, Pixelfed, PeerTube, and hundreds of other platforms — enabling interoperable social networking across independently operated servers.\n\nContact Support:\n Name: W3C Social Web Working Group",
+      "type": "text/plain"
+    }
+  }
+}
