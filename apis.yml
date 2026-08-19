@@ -216,7 +216,7 @@ maintainers:
     email: kin@apievangelist.com
   - FN: APIs.json
     email: info@apis.io
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 common:
   - type: AgenticAccess
     url: agentic-access/activitypub-agentic-access.yml
