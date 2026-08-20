@@ -21,6 +21,11 @@ apis:
   name: ActivityPub Inbox API
   tags:
   - Inbox
+  - Message
+  - Delivery
+  - Social Networks
+  tags_raw:
+  - Inbox
   - Messages
   - Delivery
   - Social Networks
@@ -123,6 +128,11 @@ apis:
 - aid: activitypub:activitypub-nodeinfo-api
   name: ActivityPub NodeInfo API
   tags:
+  - Node Info
+  - Discovery
+  - Server Metadata
+  - Social Networks
+  tags_raw:
   - NodeInfo
   - Discovery
   - Server Metadata
@@ -149,6 +159,8 @@ apis:
   name: ActivityPub Collections API
   description: Followers, following, and liked collections
   tags:
+  - Collection
+  tags_raw:
   - Collections
   properties:
   - type: OpenAPI
