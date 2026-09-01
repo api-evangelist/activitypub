@@ -128,7 +128,7 @@ apis:
 - aid: activitypub:activitypub-nodeinfo-api
   name: ActivityPub NodeInfo API
   tags:
-  - NodeInfo
+  - Node Info
   - Discovery
   - Server Metadata
   - Social Networks
