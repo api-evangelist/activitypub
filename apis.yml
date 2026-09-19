@@ -6,6 +6,10 @@ apis:
   tags:
   - Actors
   - Profiles
+  - Social Network
+  tags_raw:
+  - Actors
+  - Profiles
   - Social Networks
   properties:
   - url: https://www.w3.org/TR/activitypub/#actors
@@ -23,7 +27,7 @@ apis:
   - Inbox
   - Message
   - Delivery
-  - Social Networks
+  - Social Network
   tags_raw:
   - Inbox
   - Messages
@@ -45,6 +49,11 @@ apis:
   - Outbox
   - Publishing
   - Activities
+  - Social Network
+  tags_raw:
+  - Outbox
+  - Publishing
+  - Activities
   - Social Networks
   properties:
   - url: https://www.w3.org/TR/activitypub/#outbox
@@ -59,6 +68,11 @@ apis:
 - aid: activitypub:activitypub-followers-following-api
   name: ActivityPub Followers and Following API
   tags:
+  - Followers
+  - Following
+  - Social Graph
+  - Social Network
+  tags_raw:
   - Followers
   - Following
   - Social Graph
@@ -79,6 +93,11 @@ apis:
   - Liked
   - Reactions
   - Activities
+  - Social Network
+  tags_raw:
+  - Liked
+  - Reactions
+  - Activities
   - Social Networks
   properties:
   - url: https://www.w3.org/TR/activitypub/#liked
@@ -91,6 +110,12 @@ apis:
 - aid: activitypub:activitypub-object-delivery-api
   name: ActivityPub Object and Activity Delivery API
   tags:
+  - Activities
+  - Objects
+  - Delivery
+  - Federation
+  - Social Network
+  tags_raw:
   - Activities
   - Objects
   - Delivery
@@ -109,6 +134,11 @@ apis:
 - aid: activitypub:activitypub-webfinger-api
   name: ActivityPub WebFinger Discovery API
   tags:
+  - WebFinger
+  - Discovery
+  - Identity
+  - Social Network
+  tags_raw:
   - WebFinger
   - Discovery
   - Identity
@@ -131,7 +161,7 @@ apis:
   - Node Info
   - Discovery
   - Server Metadata
-  - Social Networks
+  - Social Network
   tags_raw:
   - NodeInfo
   - Discovery
@@ -192,6 +222,12 @@ apis:
 name: ActivityPub
 kind: topic
 tags:
+  - Open Standard
+  - Social Network
+  - Federation
+  - Fediverse
+  - W3C
+tags_raw:
   - Open Standard
   - Social Networks
   - Federation
