@@ -1,8 +1,8 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: ActivityPub Actors Discovery API
+  title: ActivityPub Discovery API
   version: 1.0.0
-  description: ActivityPub is a W3C Recommendation (https://www.w3.org/TR/activitypub/) that defines a decentralized social networking protocol. It specifies both a client-to-server API for creating and managing social content and a server-to-server federation protocol for distributing activities across instances. Built on ActivityStreams 2.0 and JSON-LD, ActivityPub powers the Fediverse — Mastodon, Pixelfed, PeerTube, and hundreds of other platforms — enabling interoperable social networking across independently operated servers.
+  description: ActivityPub is a W3C Recommendation (https://www.w3.org/TR/activitypub/) that defines a decentralized social networking protocol.
   contact:
     name: W3C Social Web Working Group
     url: https://www.w3.org/wiki/Socialwg
@@ -108,55 +108,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    WebFingerResponse:
-      type: object
-      description: JSON Resource Descriptor (JRD) per RFC 7033
-      required:
-      - subject
-      properties:
-        subject:
-          type: string
-          description: The queried resource
-          example: acct:alyssa@social.example
-        aliases:
-          type: array
-          items:
-            type: string
-            format: uri
-          description: Alternative URIs for the subject
-        properties:
-          type: object
-          additionalProperties:
-            type: string
-          description: Properties of the subject resource
-        links:
-          type: array
-          items:
-            type: object
-            required:
-            - rel
-            properties:
-              rel:
-                type: string
-                description: Link relation type
-                example: self
-              type:
-                type: string
-                description: Media type of the target resource
-                example: application/activity+json
-              href:
-                type: string
-                format: uri
-                description: IRI of the linked resource
-                example: https://social.example/users/alyssa
-              titles:
-                type: object
-                additionalProperties:
-                  type: string
-              properties:
-                type: object
-                additionalProperties:
-                  type: string
     NodeInfo:
       type: object
       description: NodeInfo server capability metadata
@@ -207,6 +158,55 @@ components:
         error_description:
           type: string
           description: Human-readable error detail
+    WebFingerResponse:
+      type: object
+      description: JSON Resource Descriptor (JRD) per RFC 7033
+      required:
+      - subject
+      properties:
+        subject:
+          type: string
+          description: The queried resource
+          example: acct:alyssa@social.example
+        aliases:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Alternative URIs for the subject
+        properties:
+          type: object
+          additionalProperties:
+            type: string
+          description: Properties of the subject resource
+        links:
+          type: array
+          items:
+            type: object
+            required:
+            - rel
+            properties:
+              rel:
+                type: string
+                description: Link relation type
+                example: self
+              type:
+                type: string
+                description: Media type of the target resource
+                example: application/activity+json
+              href:
+                type: string
+                format: uri
+                description: IRI of the linked resource
+                example: https://social.example/users/alyssa
+              titles:
+                type: object
+                additionalProperties:
+                  type: string
+              properties:
+                type: object
+                additionalProperties:
+                  type: string
     NodeInfoLinks:
       type: object
       description: NodeInfo link document at /.well-known/nodeinfo

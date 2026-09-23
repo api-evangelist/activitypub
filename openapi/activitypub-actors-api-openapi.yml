@@ -1,8 +1,8 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: ActivityPub Actors API
   version: 1.0.0
-  description: ActivityPub is a W3C Recommendation (https://www.w3.org/TR/activitypub/) that defines a decentralized social networking protocol. It specifies both a client-to-server API for creating and managing social content and a server-to-server federation protocol for distributing activities across instances. Built on ActivityStreams 2.0 and JSON-LD, ActivityPub powers the Fediverse — Mastodon, Pixelfed, PeerTube, and hundreds of other platforms — enabling interoperable social networking across independently operated servers.
+  description: ActivityPub is a W3C Recommendation (https://www.w3.org/TR/activitypub/) that defines a decentralized social networking protocol.
   contact:
     name: W3C Social Web Working Group
     url: https://www.w3.org/wiki/Socialwg
@@ -72,6 +72,15 @@ components:
           oneOf:
           - type: string
           - type: object
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error code or short description
+        error_description:
+          type: string
+          description: Human-readable error detail
     Actor:
       type: object
       description: An ActivityPub Actor object representing an entity capable of performing activities. Actor types include Person, Application, Group, Organization, and Service.
@@ -186,15 +195,6 @@ components:
           type: string
           format: date-time
           description: When the actor was last updated
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Error code or short description
-        error_description:
-          type: string
-          description: Human-readable error detail
     ImageObject:
       type: object
       description: An ActivityStreams 2.0 Image object

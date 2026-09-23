@@ -1,11 +1,7 @@
 {
   "provider": "activitypub",
   "sources": [
-    "activitypub-actors-api-openapi.yml",
-    "activitypub-collections-api-openapi.yml",
-    "activitypub-discovery-api-openapi.yml",
-    "activitypub-inbox-api-openapi.yml",
-    "activitypub-outbox-api-openapi.yml"
+    "_original/activitypub-openapi.yml"
   ],
   "outputs": [
     "activitypub-actors-api-openapi.yml",
@@ -17,6 +13,16 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "activitypub-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "activitypub-actors-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "activitypub-collections-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "activitypub-discovery-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "activitypub-inbox-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "activitypub-outbox-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
