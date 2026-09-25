@@ -42,6 +42,9 @@ artifacts:
   finops/activitypub-finops.yml:
     method: unknown
     evidence: no authorship recorded
+  front-door-ai/2026-09-17.yml:
+    method: unknown
+    evidence: no authorship recorded
   json-ld/activitypub-context.jsonld:
     method: unknown
     evidence: no authorship recorded
@@ -53,7 +56,8 @@ artifacts:
     evidence: no authorship recorded
   openapi/_original/activitypub-openapi.yml:
     method: harvested
-    evidence: fetched from the provider as-is; byte-identical to the source
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
   openapi/activitypub-actors-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
