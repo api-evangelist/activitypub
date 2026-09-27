@@ -1,70 +1,6 @@
 aid: activitypub
 url: https://raw.githubusercontent.com/api-evangelist/activitypub/refs/heads/main/apis.yml
 apis:
-- aid: activitypub:activitypub-actors-api
-  name: ActivityPub Actors API
-  tags:
-  - Actors
-  - Profiles
-  - Social Network
-  tags_raw:
-  - Actors
-  - Profiles
-  - Social Networks
-  properties:
-  - url: https://www.w3.org/TR/activitypub/#actors
-    type: Documentation
-  - url: https://www.w3.org/TR/activitypub/#actor-objects
-    type: APIReference
-  description: >-
-    Actors are the primary objects in ActivityPub that represent entities capable of performing activities.
-    Each actor has a unique IRI and exposes properties such as inbox, outbox, followers, following, and
-    liked collections. Actor objects are retrieved via HTTP GET and served as JSON-LD using the ActivityStreams
-    2.0 vocabulary.
-- aid: activitypub:activitypub-inbox-api
-  name: ActivityPub Inbox API
-  tags:
-  - Inbox
-  - Message
-  - Delivery
-  - Social Network
-  tags_raw:
-  - Inbox
-  - Messages
-  - Delivery
-  - Social Networks
-  properties:
-  - url: https://www.w3.org/TR/activitypub/#inbox
-    type: Documentation
-  - url: https://www.w3.org/TR/activitypub/#server-to-server-interactions
-    type: APIReference
-  description: >-
-    The inbox is an OrderedCollection endpoint on each actor that receives activities delivered by remote
-    servers. Servers POST activities to an actor's inbox to federate content. The inbox also supports
-    GET for authorized clients to retrieve received activities. ActivityPub uses HTTP Signatures for server-to-server
-    authentication when delivering to inboxes.
-- aid: activitypub:activitypub-outbox-api
-  name: ActivityPub Outbox API
-  tags:
-  - Outbox
-  - Publishing
-  - Activities
-  - Social Network
-  tags_raw:
-  - Outbox
-  - Publishing
-  - Activities
-  - Social Networks
-  properties:
-  - url: https://www.w3.org/TR/activitypub/#outbox
-    type: Documentation
-  - url: https://www.w3.org/TR/activitypub/#client-to-server-interactions
-    type: APIReference
-  description: >-
-    The outbox is an OrderedCollection endpoint that stores activities published by an actor. Clients
-    POST activities to an actor's outbox to create, update, delete, follow, like, and perform other social
-    interactions. The server then federates these activities to the appropriate recipients. The outbox
-    also supports GET for reading published activities.
 - aid: activitypub:activitypub-followers-following-api
   name: ActivityPub Followers and Following API
   tags:
@@ -179,12 +115,25 @@ apis:
     inspecting individual actors.
 - aid: activitypub:activitypub-actors-api
   name: ActivityPub Actors API
-  description: Retrieve actor profile objects
+  description: Actors are the primary objects in ActivityPub that represent entities capable of performing
+    activities. Each actor has a unique IRI and exposes properties such as inbox, outbox, followers, following,
+    and liked collections. Actor objects are retrieved via HTTP GET and served as JSON-LD using the ActivityStreams
+    2.0 vocabulary.
   tags:
   - Actors
+  - Profiles
+  - Social Network
   properties:
   - type: OpenAPI
     url: openapi/activitypub-actors-api-openapi.yml
+  - url: https://www.w3.org/TR/activitypub/#actors
+    type: Documentation
+  - url: https://www.w3.org/TR/activitypub/#actor-objects
+    type: APIReference
+  tags_raw:
+  - Actors
+  - Profiles
+  - Social Networks
 - aid: activitypub:activitypub-collections-api
   name: ActivityPub Collections API
   description: Followers, following, and liked collections
@@ -205,20 +154,50 @@ apis:
     url: openapi/activitypub-discovery-api-openapi.yml
 - aid: activitypub:activitypub-inbox-api
   name: ActivityPub Inbox API
-  description: Receive and read activities delivered to an actor
+  description: The inbox is an OrderedCollection endpoint on each actor that receives activities delivered
+    by remote servers. Servers POST activities to an actor's inbox to federate content. The inbox also supports
+    GET for authorized clients to retrieve received activities. ActivityPub uses HTTP Signatures for server-to-server
+    authentication when delivering to inboxes.
   tags:
   - Inbox
+  - Message
+  - Delivery
+  - Social Network
   properties:
   - type: OpenAPI
     url: openapi/activitypub-inbox-api-openapi.yml
+  - url: https://www.w3.org/TR/activitypub/#inbox
+    type: Documentation
+  - url: https://www.w3.org/TR/activitypub/#server-to-server-interactions
+    type: APIReference
+  tags_raw:
+  - Inbox
+  - Messages
+  - Delivery
+  - Social Networks
 - aid: activitypub:activitypub-outbox-api
   name: ActivityPub Outbox API
-  description: Publish activities from an actor and read their history
+  description: The outbox is an OrderedCollection endpoint that stores activities published by an actor.
+    Clients POST activities to an actor's outbox to create, update, delete, follow, like, and perform other
+    social interactions. The server then federates these activities to the appropriate recipients. The outbox
+    also supports GET for reading published activities.
   tags:
   - Outbox
+  - Publishing
+  - Activities
+  - Social Network
   properties:
   - type: OpenAPI
     url: openapi/activitypub-outbox-api-openapi.yml
+  - url: https://www.w3.org/TR/activitypub/#outbox
+    type: Documentation
+  - url: https://www.w3.org/TR/activitypub/#client-to-server-interactions
+    type: APIReference
+  tags_raw:
+  - Outbox
+  - Publishing
+  - Activities
+  - Social Networks
 name: ActivityPub
 kind: topic
 tags:

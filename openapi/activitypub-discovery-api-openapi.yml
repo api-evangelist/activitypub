@@ -108,6 +108,72 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    NodeInfoLinks:
+      type: object
+      description: NodeInfo link document at /.well-known/nodeinfo
+      properties:
+        links:
+          type: array
+          items:
+            type: object
+            properties:
+              rel:
+                type: string
+                format: uri
+                example: http://nodeinfo.diaspora.software/ns/schema/2.0
+              href:
+                type: string
+                format: uri
+                example: https://social.example/nodeinfo/2.0
+    WebFingerResponse:
+      type: object
+      description: JSON Resource Descriptor (JRD) per RFC 7033
+      required:
+      - subject
+      properties:
+        subject:
+          type: string
+          description: The queried resource
+          example: acct:alyssa@social.example
+        aliases:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: Alternative URIs for the subject
+        properties:
+          type: object
+          additionalProperties:
+            type: string
+          description: Properties of the subject resource
+        links:
+          type: array
+          items:
+            type: object
+            required:
+            - rel
+            properties:
+              rel:
+                type: string
+                description: Link relation type
+                example: self
+              type:
+                type: string
+                description: Media type of the target resource
+                example: application/activity+json
+              href:
+                type: string
+                format: uri
+                description: IRI of the linked resource
+                example: https://social.example/users/alyssa
+              titles:
+                type: object
+                additionalProperties:
+                  type: string
+              properties:
+                type: object
+                additionalProperties:
+                  type: string
     NodeInfo:
       type: object
       description: NodeInfo server capability metadata
@@ -158,72 +224,6 @@ components:
         error_description:
           type: string
           description: Human-readable error detail
-    WebFingerResponse:
-      type: object
-      description: JSON Resource Descriptor (JRD) per RFC 7033
-      required:
-      - subject
-      properties:
-        subject:
-          type: string
-          description: The queried resource
-          example: acct:alyssa@social.example
-        aliases:
-          type: array
-          items:
-            type: string
-            format: uri
-          description: Alternative URIs for the subject
-        properties:
-          type: object
-          additionalProperties:
-            type: string
-          description: Properties of the subject resource
-        links:
-          type: array
-          items:
-            type: object
-            required:
-            - rel
-            properties:
-              rel:
-                type: string
-                description: Link relation type
-                example: self
-              type:
-                type: string
-                description: Media type of the target resource
-                example: application/activity+json
-              href:
-                type: string
-                format: uri
-                description: IRI of the linked resource
-                example: https://social.example/users/alyssa
-              titles:
-                type: object
-                additionalProperties:
-                  type: string
-              properties:
-                type: object
-                additionalProperties:
-                  type: string
-    NodeInfoLinks:
-      type: object
-      description: NodeInfo link document at /.well-known/nodeinfo
-      properties:
-        links:
-          type: array
-          items:
-            type: object
-            properties:
-              rel:
-                type: string
-                format: uri
-                example: http://nodeinfo.diaspora.software/ns/schema/2.0
-              href:
-                type: string
-                format: uri
-                example: https://social.example/nodeinfo/2.0
   securitySchemes:
     BearerAuth:
       type: http

@@ -113,130 +113,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    ASObject:
-      type: object
-      description: Base ActivityStreams 2.0 Object type. Encompasses Note, Article, Image, Video, Audio, Document, Page, Event, Place, Profile, Relationship, Tombstone, and Question.
-      properties:
-        '@context':
-          $ref: '#/components/schemas/ASContext'
-        id:
-          type: string
-          format: uri
-          description: Globally unique IRI identifying the object
-        type:
-          type: string
-          description: Object type
-          enum:
-          - Object
-          - Article
-          - Audio
-          - Document
-          - Event
-          - Image
-          - Note
-          - Page
-          - Place
-          - Profile
-          - Relationship
-          - Tombstone
-          - Video
-          example: Note
-        name:
-          type: string
-          description: Human-readable display name
-        content:
-          type: string
-          description: HTML or text content of the object
-          example: Say, did you finish reading that book I lent you?
-        contentMap:
-          type: object
-          additionalProperties:
-            type: string
-          description: Language-tagged content variants (BCP47 language codes as keys)
-        summary:
-          type: string
-          description: Short summary or content warning
-        url:
-          type: string
-          format: uri
-          description: Canonical URL of the object
-        attributedTo:
-          description: Actor(s) to attribute this object to
-          oneOf:
-          - type: string
-            format: uri
-          - type: array
-            items:
-              type: string
-              format: uri
-        to:
-          description: Primary audience
-          oneOf:
-          - type: string
-            format: uri
-          - type: array
-            items:
-              type: string
-              format: uri
-        cc:
-          description: Secondary audience
-          oneOf:
-          - type: string
-            format: uri
-          - type: array
-            items:
-              type: string
-              format: uri
-        inReplyTo:
-          description: Object this is a reply to
-          oneOf:
-          - type: string
-            format: uri
-          - type: array
-            items:
-              type: string
-              format: uri
-        replies:
-          description: Collection of replies to this object
-          oneOf:
-          - type: string
-            format: uri
-          - $ref: '#/components/schemas/Collection'
-        tag:
-          description: Tags, hashtags, or mentions associated with this object
-          type: array
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/Link'
-            - $ref: '#/components/schemas/ASObject'
-        attachment:
-          description: Media or other attachments
-          type: array
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/Link'
-            - $ref: '#/components/schemas/ASObject'
-        mediaType:
-          type: string
-          description: MIME type of the content
-          example: text/html
-        published:
-          type: string
-          format: date-time
-        updated:
-          type: string
-          format: date-time
-        sensitive:
-          type: boolean
-          description: Whether the content is sensitive (Mastodon extension, widely adopted)
-          example: false
-        formerType:
-          type: string
-          description: Former type before object was deleted (Tombstone only)
-        deleted:
-          type: string
-          format: date-time
-          description: When the object was deleted (Tombstone only)
     Actor:
       type: object
       description: An ActivityPub Actor object representing an entity capable of performing activities. Actor types include Person, Application, Group, Organization, and Service.
@@ -351,6 +227,24 @@ components:
           type: string
           format: date-time
           description: When the actor was last updated
+    ImageObject:
+      type: object
+      description: An ActivityStreams 2.0 Image object
+      properties:
+        type:
+          type: string
+          enum:
+          - Image
+        url:
+          type: string
+          format: uri
+        mediaType:
+          type: string
+          example: image/jpeg
+        width:
+          type: integer
+        height:
+          type: integer
     Activity:
       type: object
       description: 'An ActivityStreams 2.0 Activity describing an action performed by an actor. Common activity types: Create, Update, Delete, Follow, Accept, Reject, Announce, Like, Dislike, Undo, Block, Add, Remove, Flag.'
@@ -478,39 +372,58 @@ components:
           - type: string
             format: uri
           - $ref: '#/components/schemas/ASObject'
-    Link:
+    OrderedCollection:
       type: object
-      description: An ActivityStreams 2.0 Link, a qualified reference to another resource
+      description: An ActivityStreams 2.0 OrderedCollection with temporally ordered items
       required:
       - type
-      - href
+      - id
       properties:
+        '@context':
+          $ref: '#/components/schemas/ASContext'
+        id:
+          type: string
+          format: uri
+          description: IRI of the ordered collection
         type:
           type: string
           enum:
-          - Link
-          - Mention
-          example: Mention
-        href:
+          - OrderedCollection
+          example: OrderedCollection
+        totalItems:
+          type: integer
+          description: Total number of items in the collection
+          example: 15
+        current:
           type: string
           format: uri
-          description: Target IRI of the link
-        name:
+          description: IRI of the most recent page
+        first:
           type: string
-          description: Display name for the link
-        mediaType:
+          format: uri
+          description: IRI of the first page
+        last:
           type: string
-          description: MIME type of the target resource
-        hreflang:
+          format: uri
+          description: IRI of the last page
+        orderedItems:
+          type: array
+          description: Temporally ordered items (most recent first)
+          items:
+            oneOf:
+            - type: string
+              format: uri
+            - $ref: '#/components/schemas/ASObject'
+            - $ref: '#/components/schemas/Activity'
+    Error:
+      type: object
+      properties:
+        error:
           type: string
-          description: Language of the target resource (BCP 47)
-        rel:
-          description: Link relation type(s)
-          oneOf:
-          - type: string
-          - type: array
-            items:
-              type: string
+          description: Error code or short description
+        error_description:
+          type: string
+          description: Human-readable error detail
     Collection:
       type: object
       description: An ActivityStreams 2.0 Collection of Objects or Links
@@ -555,33 +468,130 @@ components:
               format: uri
             - $ref: '#/components/schemas/ASObject'
             - $ref: '#/components/schemas/Activity'
-    Error:
+    ASObject:
       type: object
+      description: Base ActivityStreams 2.0 Object type. Encompasses Note, Article, Image, Video, Audio, Document, Page, Event, Place, Profile, Relationship, Tombstone, and Question.
       properties:
-        error:
+        '@context':
+          $ref: '#/components/schemas/ASContext'
+        id:
           type: string
-          description: Error code or short description
-        error_description:
-          type: string
-          description: Human-readable error detail
-    ImageObject:
-      type: object
-      description: An ActivityStreams 2.0 Image object
-      properties:
+          format: uri
+          description: Globally unique IRI identifying the object
         type:
           type: string
+          description: Object type
           enum:
+          - Object
+          - Article
+          - Audio
+          - Document
+          - Event
           - Image
+          - Note
+          - Page
+          - Place
+          - Profile
+          - Relationship
+          - Tombstone
+          - Video
+          example: Note
+        name:
+          type: string
+          description: Human-readable display name
+        content:
+          type: string
+          description: HTML or text content of the object
+          example: Say, did you finish reading that book I lent you?
+        contentMap:
+          type: object
+          additionalProperties:
+            type: string
+          description: Language-tagged content variants (BCP47 language codes as keys)
+        summary:
+          type: string
+          description: Short summary or content warning
         url:
           type: string
           format: uri
+          description: Canonical URL of the object
+        attributedTo:
+          description: Actor(s) to attribute this object to
+          oneOf:
+          - type: string
+            format: uri
+          - type: array
+            items:
+              type: string
+              format: uri
+        to:
+          description: Primary audience
+          oneOf:
+          - type: string
+            format: uri
+          - type: array
+            items:
+              type: string
+              format: uri
+        cc:
+          description: Secondary audience
+          oneOf:
+          - type: string
+            format: uri
+          - type: array
+            items:
+              type: string
+              format: uri
+        inReplyTo:
+          description: Object this is a reply to
+          oneOf:
+          - type: string
+            format: uri
+          - type: array
+            items:
+              type: string
+              format: uri
+        replies:
+          description: Collection of replies to this object
+          oneOf:
+          - type: string
+            format: uri
+          - $ref: '#/components/schemas/Collection'
+        tag:
+          description: Tags, hashtags, or mentions associated with this object
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Link'
+            - $ref: '#/components/schemas/ASObject'
+        attachment:
+          description: Media or other attachments
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/Link'
+            - $ref: '#/components/schemas/ASObject'
         mediaType:
           type: string
-          example: image/jpeg
-        width:
-          type: integer
-        height:
-          type: integer
+          description: MIME type of the content
+          example: text/html
+        published:
+          type: string
+          format: date-time
+        updated:
+          type: string
+          format: date-time
+        sensitive:
+          type: boolean
+          description: Whether the content is sensitive (Mastodon extension, widely adopted)
+          example: false
+        formerType:
+          type: string
+          description: Former type before object was deleted (Tombstone only)
+        deleted:
+          type: string
+          format: date-time
+          description: When the object was deleted (Tombstone only)
     ASContext:
       description: ActivityStreams 2.0 JSON-LD context
       oneOf:
@@ -592,49 +602,39 @@ components:
           oneOf:
           - type: string
           - type: object
-    OrderedCollection:
+    Link:
       type: object
-      description: An ActivityStreams 2.0 OrderedCollection with temporally ordered items
+      description: An ActivityStreams 2.0 Link, a qualified reference to another resource
       required:
       - type
-      - id
+      - href
       properties:
-        '@context':
-          $ref: '#/components/schemas/ASContext'
-        id:
-          type: string
-          format: uri
-          description: IRI of the ordered collection
         type:
           type: string
           enum:
-          - OrderedCollection
-          example: OrderedCollection
-        totalItems:
-          type: integer
-          description: Total number of items in the collection
-          example: 15
-        current:
+          - Link
+          - Mention
+          example: Mention
+        href:
           type: string
           format: uri
-          description: IRI of the most recent page
-        first:
+          description: Target IRI of the link
+        name:
           type: string
-          format: uri
-          description: IRI of the first page
-        last:
+          description: Display name for the link
+        mediaType:
           type: string
-          format: uri
-          description: IRI of the last page
-        orderedItems:
-          type: array
-          description: Temporally ordered items (most recent first)
-          items:
-            oneOf:
-            - type: string
-              format: uri
-            - $ref: '#/components/schemas/ASObject'
-            - $ref: '#/components/schemas/Activity'
+          description: MIME type of the target resource
+        hreflang:
+          type: string
+          description: Language of the target resource (BCP 47)
+        rel:
+          description: Link relation type(s)
+          oneOf:
+          - type: string
+          - type: array
+            items:
+              type: string
   securitySchemes:
     BearerAuth:
       type: http
