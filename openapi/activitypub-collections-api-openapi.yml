@@ -136,6 +136,272 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    Activity:
+      type: object
+      description: 'An ActivityStreams 2.0 Activity describing an action performed by an actor. Common activity types: Create, Update, Delete, Follow, Accept, Reject, Announce, Like, Dislike, Undo, Block, Add, Remove, Flag.'
+      required:
+      - '@context'
+      - type
+      - actor
+      properties:
+        '@context':
+          $ref: '#/components/schemas/ASContext'
+        id:
+          type: string
+          format: uri
+          description: Globally unique IRI identifying the activity (assigned by server)
+          example: https://social.example/users/alyssa/activities/12345
+        type:
+          type: string
+          description: The activity type
+          enum:
+          - Accept
+          - Add
+          - Announce
+          - Arrive
+          - Block
+          - Create
+          - Delete
+          - Dislike
+          - Flag
+          - Follow
+          - Ignore
+          - Invite
+          - Join
+          - Leave
+          - Like
+          - Listen
+          - Move
+          - Offer
+          - Question
+          - Read
+          - Reject
+          - Remove
+          - TentativeAccept
+          - TentativeReject
+          - Travel
+          - Undo
+          - Update
+          - View
+          example: Create
+        actor:
+          description: The actor performing the activity (IRI or Actor object)
+          oneOf:
+          - type: string
+            format: uri
+          - $ref: '#/components/schemas/Actor'
+        object:
+          description: The object upon which the activity is performed
+          oneOf:
+          - type: string
+            format: uri
+          - $ref: '#/components/schemas/ASObject'
+        target:
+          description: The indirect object or target of the activity
+          oneOf:
+          - type: string
+            format: uri
+          - $ref: '#/components/schemas/ASObject'
+        to:
+          description: Primary audience (public, followers, specific actors)
+          oneOf:
+          - type: string
+            format: uri
+          - type: array
+            items:
+              type: string
+              format: uri
+        cc:
+          description: Secondary (carbon copy) audience
+          oneOf:
+          - type: string
+            format: uri
+          - type: array
+            items:
+              type: string
+              format: uri
+        bto:
+          description: Private primary audience (stripped before delivery)
+          oneOf:
+          - type: string
+            format: uri
+          - type: array
+            items:
+              type: string
+              format: uri
+        bcc:
+          description: Private secondary audience (stripped before delivery)
+          oneOf:
+          - type: string
+            format: uri
+          - type: array
+            items:
+              type: string
+              format: uri
+        published:
+          type: string
+          format: date-time
+          description: When the activity occurred
+        summary:
+          type: string
+          description: Short summary or content warning
+        result:
+          description: The result or output of the activity
+          oneOf:
+          - type: string
+            format: uri
+          - $ref: '#/components/schemas/ASObject'
+        origin:
+          description: The source of the activity (e.g., for Move)
+          oneOf:
+          - type: string
+            format: uri
+          - $ref: '#/components/schemas/ASObject'
+        instrument:
+          description: Tool or instrument used to perform the activity
+          oneOf:
+          - type: string
+            format: uri
+          - $ref: '#/components/schemas/ASObject'
+    Collection:
+      type: object
+      description: An ActivityStreams 2.0 Collection of Objects or Links
+      required:
+      - type
+      - id
+      properties:
+        '@context':
+          $ref: '#/components/schemas/ASContext'
+        id:
+          type: string
+          format: uri
+          description: IRI of the collection
+        type:
+          type: string
+          enum:
+          - Collection
+          - OrderedCollection
+          example: Collection
+        totalItems:
+          type: integer
+          description: Total number of items in the collection
+          example: 42
+        current:
+          type: string
+          format: uri
+          description: IRI of the most recent page
+        first:
+          type: string
+          format: uri
+          description: IRI of the first page
+        last:
+          type: string
+          format: uri
+          description: IRI of the last page
+        items:
+          type: array
+          description: Items in the collection (unordered)
+          items:
+            oneOf:
+            - type: string
+              format: uri
+            - $ref: '#/components/schemas/ASObject'
+            - $ref: '#/components/schemas/Activity'
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error code or short description
+        error_description:
+          type: string
+          description: Human-readable error detail
+    OrderedCollection:
+      type: object
+      description: An ActivityStreams 2.0 OrderedCollection with temporally ordered items
+      required:
+      - type
+      - id
+      properties:
+        '@context':
+          $ref: '#/components/schemas/ASContext'
+        id:
+          type: string
+          format: uri
+          description: IRI of the ordered collection
+        type:
+          type: string
+          enum:
+          - OrderedCollection
+          example: OrderedCollection
+        totalItems:
+          type: integer
+          description: Total number of items in the collection
+          example: 15
+        current:
+          type: string
+          format: uri
+          description: IRI of the most recent page
+        first:
+          type: string
+          format: uri
+          description: IRI of the first page
+        last:
+          type: string
+          format: uri
+          description: IRI of the last page
+        orderedItems:
+          type: array
+          description: Temporally ordered items (most recent first)
+          items:
+            oneOf:
+            - type: string
+              format: uri
+            - $ref: '#/components/schemas/ASObject'
+            - $ref: '#/components/schemas/Activity'
+    Link:
+      type: object
+      description: An ActivityStreams 2.0 Link, a qualified reference to another resource
+      required:
+      - type
+      - href
+      properties:
+        type:
+          type: string
+          enum:
+          - Link
+          - Mention
+          example: Mention
+        href:
+          type: string
+          format: uri
+          description: Target IRI of the link
+        name:
+          type: string
+          description: Display name for the link
+        mediaType:
+          type: string
+          description: MIME type of the target resource
+        hreflang:
+          type: string
+          description: Language of the target resource (BCP 47)
+        rel:
+          description: Link relation type(s)
+          oneOf:
+          - type: string
+          - type: array
+            items:
+              type: string
+    ASContext:
+      description: ActivityStreams 2.0 JSON-LD context
+      oneOf:
+      - type: string
+        example: https://www.w3.org/ns/activitystreams
+      - type: array
+        items:
+          oneOf:
+          - type: string
+          - type: object
     Actor:
       type: object
       description: An ActivityPub Actor object representing an entity capable of performing activities. Actor types include Person, Application, Group, Organization, and Service.
@@ -268,229 +534,6 @@ components:
           type: integer
         height:
           type: integer
-    Activity:
-      type: object
-      description: 'An ActivityStreams 2.0 Activity describing an action performed by an actor. Common activity types: Create, Update, Delete, Follow, Accept, Reject, Announce, Like, Dislike, Undo, Block, Add, Remove, Flag.'
-      required:
-      - '@context'
-      - type
-      - actor
-      properties:
-        '@context':
-          $ref: '#/components/schemas/ASContext'
-        id:
-          type: string
-          format: uri
-          description: Globally unique IRI identifying the activity (assigned by server)
-          example: https://social.example/users/alyssa/activities/12345
-        type:
-          type: string
-          description: The activity type
-          enum:
-          - Accept
-          - Add
-          - Announce
-          - Arrive
-          - Block
-          - Create
-          - Delete
-          - Dislike
-          - Flag
-          - Follow
-          - Ignore
-          - Invite
-          - Join
-          - Leave
-          - Like
-          - Listen
-          - Move
-          - Offer
-          - Question
-          - Read
-          - Reject
-          - Remove
-          - TentativeAccept
-          - TentativeReject
-          - Travel
-          - Undo
-          - Update
-          - View
-          example: Create
-        actor:
-          description: The actor performing the activity (IRI or Actor object)
-          oneOf:
-          - type: string
-            format: uri
-          - $ref: '#/components/schemas/Actor'
-        object:
-          description: The object upon which the activity is performed
-          oneOf:
-          - type: string
-            format: uri
-          - $ref: '#/components/schemas/ASObject'
-        target:
-          description: The indirect object or target of the activity
-          oneOf:
-          - type: string
-            format: uri
-          - $ref: '#/components/schemas/ASObject'
-        to:
-          description: Primary audience (public, followers, specific actors)
-          oneOf:
-          - type: string
-            format: uri
-          - type: array
-            items:
-              type: string
-              format: uri
-        cc:
-          description: Secondary (carbon copy) audience
-          oneOf:
-          - type: string
-            format: uri
-          - type: array
-            items:
-              type: string
-              format: uri
-        bto:
-          description: Private primary audience (stripped before delivery)
-          oneOf:
-          - type: string
-            format: uri
-          - type: array
-            items:
-              type: string
-              format: uri
-        bcc:
-          description: Private secondary audience (stripped before delivery)
-          oneOf:
-          - type: string
-            format: uri
-          - type: array
-            items:
-              type: string
-              format: uri
-        published:
-          type: string
-          format: date-time
-          description: When the activity occurred
-        summary:
-          type: string
-          description: Short summary or content warning
-        result:
-          description: The result or output of the activity
-          oneOf:
-          - type: string
-            format: uri
-          - $ref: '#/components/schemas/ASObject'
-        origin:
-          description: The source of the activity (e.g., for Move)
-          oneOf:
-          - type: string
-            format: uri
-          - $ref: '#/components/schemas/ASObject'
-        instrument:
-          description: Tool or instrument used to perform the activity
-          oneOf:
-          - type: string
-            format: uri
-          - $ref: '#/components/schemas/ASObject'
-    OrderedCollection:
-      type: object
-      description: An ActivityStreams 2.0 OrderedCollection with temporally ordered items
-      required:
-      - type
-      - id
-      properties:
-        '@context':
-          $ref: '#/components/schemas/ASContext'
-        id:
-          type: string
-          format: uri
-          description: IRI of the ordered collection
-        type:
-          type: string
-          enum:
-          - OrderedCollection
-          example: OrderedCollection
-        totalItems:
-          type: integer
-          description: Total number of items in the collection
-          example: 15
-        current:
-          type: string
-          format: uri
-          description: IRI of the most recent page
-        first:
-          type: string
-          format: uri
-          description: IRI of the first page
-        last:
-          type: string
-          format: uri
-          description: IRI of the last page
-        orderedItems:
-          type: array
-          description: Temporally ordered items (most recent first)
-          items:
-            oneOf:
-            - type: string
-              format: uri
-            - $ref: '#/components/schemas/ASObject'
-            - $ref: '#/components/schemas/Activity'
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Error code or short description
-        error_description:
-          type: string
-          description: Human-readable error detail
-    Collection:
-      type: object
-      description: An ActivityStreams 2.0 Collection of Objects or Links
-      required:
-      - type
-      - id
-      properties:
-        '@context':
-          $ref: '#/components/schemas/ASContext'
-        id:
-          type: string
-          format: uri
-          description: IRI of the collection
-        type:
-          type: string
-          enum:
-          - Collection
-          - OrderedCollection
-          example: Collection
-        totalItems:
-          type: integer
-          description: Total number of items in the collection
-          example: 42
-        current:
-          type: string
-          format: uri
-          description: IRI of the most recent page
-        first:
-          type: string
-          format: uri
-          description: IRI of the first page
-        last:
-          type: string
-          format: uri
-          description: IRI of the last page
-        items:
-          type: array
-          description: Items in the collection (unordered)
-          items:
-            oneOf:
-            - type: string
-              format: uri
-            - $ref: '#/components/schemas/ASObject'
-            - $ref: '#/components/schemas/Activity'
     ASObject:
       type: object
       description: Base ActivityStreams 2.0 Object type. Encompasses Note, Article, Image, Video, Audio, Document, Page, Event, Place, Profile, Relationship, Tombstone, and Question.
@@ -615,49 +658,6 @@ components:
           type: string
           format: date-time
           description: When the object was deleted (Tombstone only)
-    ASContext:
-      description: ActivityStreams 2.0 JSON-LD context
-      oneOf:
-      - type: string
-        example: https://www.w3.org/ns/activitystreams
-      - type: array
-        items:
-          oneOf:
-          - type: string
-          - type: object
-    Link:
-      type: object
-      description: An ActivityStreams 2.0 Link, a qualified reference to another resource
-      required:
-      - type
-      - href
-      properties:
-        type:
-          type: string
-          enum:
-          - Link
-          - Mention
-          example: Mention
-        href:
-          type: string
-          format: uri
-          description: Target IRI of the link
-        name:
-          type: string
-          description: Display name for the link
-        mediaType:
-          type: string
-          description: MIME type of the target resource
-        hreflang:
-          type: string
-          description: Language of the target resource (BCP 47)
-        rel:
-          description: Link relation type(s)
-          oneOf:
-          - type: string
-          - type: array
-            items:
-              type: string
   securitySchemes:
     BearerAuth:
       type: http

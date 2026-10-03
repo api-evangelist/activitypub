@@ -125,6 +125,47 @@ components:
                 type: string
                 format: uri
                 example: https://social.example/nodeinfo/2.0
+    NodeInfo:
+      type: object
+      description: NodeInfo server capability metadata
+      properties:
+        version:
+          type: string
+          example: '2.0'
+        software:
+          type: object
+          properties:
+            name:
+              type: string
+              example: mastodon
+            version:
+              type: string
+              example: 4.2.0
+        protocols:
+          type: array
+          items:
+            type: string
+          example:
+          - activitypub
+        usage:
+          type: object
+          properties:
+            users:
+              type: object
+              properties:
+                total:
+                  type: integer
+                activeMonth:
+                  type: integer
+                activeHalfyear:
+                  type: integer
+            localPosts:
+              type: integer
+            localComments:
+              type: integer
+        openRegistrations:
+          type: boolean
+          description: Whether the server accepts new user registrations
     WebFingerResponse:
       type: object
       description: JSON Resource Descriptor (JRD) per RFC 7033
@@ -174,47 +215,6 @@ components:
                 type: object
                 additionalProperties:
                   type: string
-    NodeInfo:
-      type: object
-      description: NodeInfo server capability metadata
-      properties:
-        version:
-          type: string
-          example: '2.0'
-        software:
-          type: object
-          properties:
-            name:
-              type: string
-              example: mastodon
-            version:
-              type: string
-              example: 4.2.0
-        protocols:
-          type: array
-          items:
-            type: string
-          example:
-          - activitypub
-        usage:
-          type: object
-          properties:
-            users:
-              type: object
-              properties:
-                total:
-                  type: integer
-                activeMonth:
-                  type: integer
-                activeHalfyear:
-                  type: integer
-            localPosts:
-              type: integer
-            localComments:
-              type: integer
-        openRegistrations:
-          type: boolean
-          description: Whether the server accepts new user registrations
     Error:
       type: object
       properties:

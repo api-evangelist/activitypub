@@ -62,6 +62,43 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error code or short description
+        error_description:
+          type: string
+          description: Human-readable error detail
+    ImageObject:
+      type: object
+      description: An ActivityStreams 2.0 Image object
+      properties:
+        type:
+          type: string
+          enum:
+          - Image
+        url:
+          type: string
+          format: uri
+        mediaType:
+          type: string
+          example: image/jpeg
+        width:
+          type: integer
+        height:
+          type: integer
+    ASContext:
+      description: ActivityStreams 2.0 JSON-LD context
+      oneOf:
+      - type: string
+        example: https://www.w3.org/ns/activitystreams
+      - type: array
+        items:
+          oneOf:
+          - type: string
+          - type: object
     Actor:
       type: object
       description: An ActivityPub Actor object representing an entity capable of performing activities. Actor types include Person, Application, Group, Organization, and Service.
@@ -176,43 +213,6 @@ components:
           type: string
           format: date-time
           description: When the actor was last updated
-    ImageObject:
-      type: object
-      description: An ActivityStreams 2.0 Image object
-      properties:
-        type:
-          type: string
-          enum:
-          - Image
-        url:
-          type: string
-          format: uri
-        mediaType:
-          type: string
-          example: image/jpeg
-        width:
-          type: integer
-        height:
-          type: integer
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Error code or short description
-        error_description:
-          type: string
-          description: Human-readable error detail
-    ASContext:
-      description: ActivityStreams 2.0 JSON-LD context
-      oneOf:
-      - type: string
-        example: https://www.w3.org/ns/activitystreams
-      - type: array
-        items:
-          oneOf:
-          - type: string
-          - type: object
   securitySchemes:
     BearerAuth:
       type: http
