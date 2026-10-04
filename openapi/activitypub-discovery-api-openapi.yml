@@ -108,6 +108,15 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error code or short description
+        error_description:
+          type: string
+          description: Human-readable error detail
     NodeInfoLinks:
       type: object
       description: NodeInfo link document at /.well-known/nodeinfo
@@ -215,15 +224,6 @@ components:
                 type: object
                 additionalProperties:
                   type: string
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Error code or short description
-        error_description:
-          type: string
-          description: Human-readable error detail
   securitySchemes:
     BearerAuth:
       type: http
