@@ -243,7 +243,7 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/activitypub.png
 access: 3rd-Party
 created: '2026-06-13'
-modified: '2026-06-13'
+modified: '2026-10-06'
 position: Consuming
 description: >-
   ActivityPub is a W3C Recommendation that defines a decentralized social networking protocol
@@ -259,6 +259,8 @@ maintainers:
     email: info@apis.io
 specificationVersion: '0.23'
 common:
+  - url: https://activitypub.rocks/feed.xml
+    type: BlogRSS
   - type: AgenticAccess
     url: agentic-access/activitypub-agentic-access.yml
   - type: DomainSecurity
