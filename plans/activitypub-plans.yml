@@ -112,3 +112,45 @@ plans:
       - name: SLA-backed managed hosting optional
       - name: Media storage at scale
       - name: Dedicated support contracts
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - subscription
+  units:
+  - negotiated
+  - none
+  - period
+  plans:
+  - name: Self-Hosted (Open Source)
+    access: free
+    model: subscription
+    model_how: derived
+    units:
+    - none
+    periods:
+    - none
+  - name: Managed Hosting — Small Instance
+    access: other
+    model: subscription
+    model_how: stated
+    units:
+    - period
+    periods:
+    - month
+  - name: Managed Hosting — Medium Instance
+    access: other
+    model: subscription
+    model_how: stated
+    units:
+    - period
+    periods:
+    - month
+  - name: Enterprise / Custom Deployment
+    access: enterprise
+    model: subscription
+    model_how: derived
+    units:
+    - negotiated
+    periods:
+    - month
