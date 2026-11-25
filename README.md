@@ -1,4 +1,4 @@
-# activitypub
+# ActivityPub
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,9 +64,37 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-## activitypub on APIs.io
+ActivityPub is a W3C Recommendation that defines a decentralized social networking protocol and REST API standard for federated social interactions. It provides both a client-to-server API for creating and managing social content and a server-to-server federation protocol for distributing activities across instances. Built on ActivityStreams 2.0 and JSON-LD, it powers the Fediverse — including Mastodon, Pixelfed, PeerTube, and hundreds of other platforms — enabling interoperable social networking across independently operated servers.
 
-Everything profiled for activitypub is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/activitypub/](https://apis.io/providers/activitypub/)** — or go straight to one of the APIs or properties below.
+**Areas:** Open Standard · Social Network · Federation · Fediverse · W3C
+
+## ActivityPub on APIs.io
+
+Everything profiled for ActivityPub is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/activitypub/](https://apis.io/providers/activitypub/)** — or go straight to one of the APIs or properties below.
+
+### APIs (10)
+
+- ActivityPub Followers and Following API — Actors expose followers and following as OrderedCollection or Collection endpoints. These endpoints enumerate the social graph connections for an actor. The…
+- ActivityPub Liked Collection API — The liked collection is an optional OrderedCollection endpoint on an actor listing all objects the actor has liked. Posting a Like activity to the actor's…
+- ActivityPub Object and Activity Delivery API — ActivityPub defines a server-to-server federation protocol for delivering activities between instances. Servers dereference actor inboxes from WebFinger or…
+- ActivityPub WebFinger Discovery API — ActivityPub implementations commonly use WebFinger (RFC 7033) for actor discovery. A GET request to /.well-known/webfinger?resource=acct:user@example.com…
+- ActivityPub NodeInfo API — NodeInfo is a complementary protocol used by ActivityPub servers to expose server capability metadata at /.well-known/nodeinfo. It describes the software…
+- ActivityPub Actors API — Actors are the primary objects in ActivityPub that represent entities capable of performing activities. Each actor has a unique IRI and exposes properties…
+- ActivityPub Collections API — Followers, following, and liked collections
+- ActivityPub Discovery API — WebFinger and NodeInfo discovery endpoints
+- ActivityPub Inbox API — The inbox is an OrderedCollection endpoint on each actor that receives activities delivered by remote servers. Servers POST activities to an actor's inbox…
+- ActivityPub Outbox API — The outbox is an OrderedCollection endpoint that stores activities published by an actor. Clients POST activities to an actor's outbox to create, update,…
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://activitypub.rocks/)
+- [Documentation](https://www.w3.org/TR/activitypub/)
+- [Getting started](https://activitypub.rocks/)
+- [Changelog](https://www.w3.org/TR/activitypub/#change-log)
+- [Security](https://www.w3.org/TR/activitypub/#security-considerations)
+- [GitHub](https://github.com/w3c/activitypub)
 
 ## API Evangelist rating
 
@@ -76,7 +104,7 @@ Not yet rated. See [apis.io/providers/activitypub/](https://apis.io/providers/ac
 
 API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
 
-The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for activitypub: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for ActivityPub: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
 
 ## Open an issue
 
